@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace MineSweeper.Controls
 {
 	/// <summary>
-	/// Interaction logic for Tile.xaml
+	/// Interaction logic for SmileButton.xaml
 	/// </summary>
-	public partial class Tile : UserControl
+	public partial class SmileButton : UserControl
 	{
-		public Tile()
+		public SmileButton()
 		{
 			InitializeComponent();
 		}

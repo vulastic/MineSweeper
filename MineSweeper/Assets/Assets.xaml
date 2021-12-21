@@ -29,4 +29,19 @@
 	<svgc:SvgImage x:Key="Number7" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d7.svg"/>
 	<svgc:SvgImage x:Key="Number8" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d8.svg"/>
 	<svgc:SvgImage x:Key="Number9" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d9.svg"/>
+	
+	<!-- Tiles -->
+	<svgc:SvgImage x:Key="TileClosed" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/closed.svg"/>
+	<svgc:SvgImage x:Key="Tile0" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type0.svg"/>
+	<svgc:SvgImage x:Key="Tile1" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type1.svg"/>
+	<svgc:SvgImage x:Key="Tile2" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type2.svg"/>
+	<svgc:SvgImage x:Key="Tile3" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type3.svg"/>
+	<svgc:SvgImage x:Key="Tile4" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type4.svg"/>
+	<svgc:SvgImage x:Key="Tile5" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type5.svg"/>
+	<svgc:SvgImage x:Key="Tile6" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type6.svg"/>
+	<svgc:SvgImage x:Key="Tile7" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type7.svg"/>
+	<svgc:SvgImage x:Key="Tile8" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type8.svg"/>
+	<svgc:SvgImage x:Key="TileFlag" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/flag.svg"/>
+	<svgc:SvgImage x:Key="TileMine" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/mine.svg"/>
+	<svgc:SvgImage x:Key="TileMineHit" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/mine_red.svg"/>
 </ResourceDictionary>

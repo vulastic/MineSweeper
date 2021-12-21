@@ -37,8 +37,8 @@
 		<Image Grid.Row="2" Grid.Column="0" Source="{StaticResource BorderBranchLeft}"/>
 		<Image Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
 		<Image Grid.Row="2" Grid.Column="4" Source="{StaticResource BorderBranchRight}"/>
-		<Image Grid.Row="3" Grid.Column="0" Source="{StaticResource BorderVertical}"/>
-		<Image Grid.Row="3" Grid.Column="4" Source="{StaticResource BorderVertical}"/>
+		<Image Grid.Row="3" Grid.Column="0" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
+		<Image Grid.Row="3" Grid.Column="4" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
 		<Image Grid.Row="4" Grid.Column="0" Source="{StaticResource BorderBottomLeft}"/>
 		<Image Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
 		<Image Grid.Row="4" Grid.Column="4" Source="{StaticResource BorderBottomRight}"/>
@@ -47,13 +47,26 @@
 		<controls:ScoreBoard Grid.Row="1" Grid.Column="1" Margin="4" Tag="{Binding MineCount}"/>
 
 		<!-- Smile Button -->
-		<Image Grid.Row="1" Grid.Column="2" Width="36"
-				   Source="{StaticResource FaceUnpressed}"/>
+		<controls:SmileButton Grid.Row="1" Grid.Column="2" Width="36" Tag="0"/>
 
 		<!-- Timer -->
 		<controls:ScoreBoard Grid.Row="1" Grid.Column="3" Margin="4" Tag="{Binding PlayTime}"/>
 		
 		<!-- Game View -->
-		<Button Grid.Row="3" Grid.Column="1" Content="TTTTT" Command="{Binding TestCommand}"/>
+		<StackPanel Grid.Row="3" Grid.Column="1">
+			<controls:GameTile Width="24" Height="24" Tag="0"/>
+			<controls:GameTile Width="24" Height="24" Tag="1"/>
+			<controls:GameTile Width="24" Height="24" Tag="2"/>
+			<controls:GameTile Width="24" Height="24" Tag="3"/>
+			<controls:GameTile Width="24" Height="24" Tag="4"/>
+			<controls:GameTile Width="24" Height="24" Tag="5"/>
+			<controls:GameTile Width="24" Height="24" Tag="6"/>
+			<controls:GameTile Width="24" Height="24" Tag="7"/>
+			<controls:GameTile Width="24" Height="24" Tag="8"/>
+			<controls:GameTile Width="24" Height="24" Tag="9"/>
+			<controls:GameTile Width="24" Height="24" Tag="10"/>
+			<controls:GameTile Width="24" Height="24" Tag="11"/>
+			<controls:GameTile Width="24" Height="24" Tag="12"/>
+		</StackPanel>
 	</Grid>
 </UserControl>
