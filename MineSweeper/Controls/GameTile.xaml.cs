@@ -20,6 +20,54 @@ namespace MineSweeper.Controls
 	/// </summary>
 	public partial class GameTile : UserControl
 	{
+		public static readonly DependencyProperty XProperty = 
+			DependencyProperty.Register("X", typeof(int), typeof(GameTile), new PropertyMetadata(0));
+
+		public int X
+		{
+			get => (int)GetValue(XProperty);
+			set
+			{
+				SetValue(XProperty, value);
+			}
+		}
+
+		public static readonly DependencyProperty YProperty = 
+			DependencyProperty.Register("Y", typeof(int), typeof(GameTile), new PropertyMetadata(0));
+
+		public int Y
+		{
+			get => (int)GetValue(YProperty);
+			set
+			{
+				SetValue(YProperty, value);
+			}
+		}
+
+		public static readonly DependencyProperty CommandProperty =
+			DependencyProperty.Register("Command", typeof(ICommand), typeof(GameTile), new UIPropertyMetadata(null));
+
+		public ICommand Command
+		{
+			get => (ICommand)GetValue(CommandProperty);
+			set 
+			{
+				SetValue(CommandProperty, value); 
+			}
+		}
+
+		public static readonly DependencyProperty CommandParameterProperty = 
+			DependencyProperty.Register("CommandParameter", typeof(object), typeof(GameTile), new UIPropertyMetadata(null));
+
+		public object CommandParameter
+		{
+			get => (object)GetValue(CommandParameterProperty);
+			set
+			{ 
+				SetValue(CommandParameterProperty, value); 
+			}
+		}
+
 		public GameTile()
 		{
 			InitializeComponent();

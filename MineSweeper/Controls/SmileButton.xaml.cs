@@ -20,6 +20,15 @@ namespace MineSweeper.Controls
 	/// </summary>
 	public partial class SmileButton : UserControl
 	{
+		public ICommand Command
+		{
+			get { return (ICommand)GetValue(CommandProperty); }
+			set { SetValue(CommandProperty, value); }
+		}
+
+		public static readonly DependencyProperty CommandProperty =
+			DependencyProperty.Register("Command", typeof(ICommand), typeof(SmileButton), new UIPropertyMetadata(null));
+
 		public SmileButton()
 		{
 			InitializeComponent();

@@ -44,29 +44,31 @@
 		<Image Grid.Row="4" Grid.Column="4" Source="{StaticResource BorderBottomRight}"/>
 
 		<!-- Mine Count -->
-		<controls:ScoreBoard Grid.Row="1" Grid.Column="1" Margin="4" Tag="{Binding MineCount}"/>
+		<controls:ScoreBoard Grid.Row="1" Grid.Column="1" Margin="4" 
+							 HorizontalAlignment="Left" Tag="{Binding MineCount}"/>
 
 		<!-- Smile Button -->
-		<controls:SmileButton Grid.Row="1" Grid.Column="2" Width="36" Tag="0"/>
+		<controls:SmileButton Grid.Row="1" Grid.Column="2" Width="36" Tag="0" Command="{Binding TestCommand}"/>
 
 		<!-- Timer -->
-		<controls:ScoreBoard Grid.Row="1" Grid.Column="3" Margin="4" Tag="{Binding PlayTime}"/>
+		<controls:ScoreBoard Grid.Row="1" Grid.Column="3" Margin="4" 
+							 HorizontalAlignment="Right" Tag="{Binding PlayTime}"/>
 		
 		<!-- Game View -->
-		<StackPanel Grid.Row="3" Grid.Column="1">
-			<controls:GameTile Width="24" Height="24" Tag="0"/>
-			<controls:GameTile Width="24" Height="24" Tag="1"/>
-			<controls:GameTile Width="24" Height="24" Tag="2"/>
-			<controls:GameTile Width="24" Height="24" Tag="3"/>
-			<controls:GameTile Width="24" Height="24" Tag="4"/>
-			<controls:GameTile Width="24" Height="24" Tag="5"/>
-			<controls:GameTile Width="24" Height="24" Tag="6"/>
-			<controls:GameTile Width="24" Height="24" Tag="7"/>
-			<controls:GameTile Width="24" Height="24" Tag="8"/>
-			<controls:GameTile Width="24" Height="24" Tag="9"/>
-			<controls:GameTile Width="24" Height="24" Tag="10"/>
-			<controls:GameTile Width="24" Height="24" Tag="11"/>
-			<controls:GameTile Width="24" Height="24" Tag="12"/>
-		</StackPanel>
+		<ItemsControl Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" ItemsSource="{Binding GameTiles}"
+					  Width="{Binding WidthCount}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<controls:GameTile Width="24" X="{Binding X}" Y="{Binding Y}" Tag="{Binding Status}" 
+									   Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TestCommand}"
+									   CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"/>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
 	</Grid>
 </UserControl>

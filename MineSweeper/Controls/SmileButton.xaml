@@ -37,5 +37,6 @@
 			</Setter>
 		</Style>
 	</UserControl.Resources>
-	<Button Style="{StaticResource SmileButton}"/>
+	<Button Style="{StaticResource SmileButton}"
+			Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Command}"/>
 </UserControl>

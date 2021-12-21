@@ -1,7 +1,9 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using MineSweeper.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,19 +35,39 @@ namespace MineSweeper.ViewModels
 			}
 		}
 
+		public int WidthCount { get => (int)Math.Sqrt(GameTiles.Count) * 24; }
+
 		public ICommand TestCommand { get; }
+
+		public ObservableCollection<Tile> GameTiles { get; set; }
 
 		public GameViewModel()
 		{
-			TestCommand = new RelayCommand(testc);
+			TestCommand = new RelayCommand<object>(testc);
+
+			GameTiles = new ObservableCollection<Tile>();
+
+			for(int i = 0; i < 16; ++i)
+			{
+				for (int j = 0; j < 16; ++j)
+				{
+					GameTiles.Add(new Tile()
+					{
+						X = i,
+						Y = j,
+						Status = 12
+					});
+				}
+			}
+			OnPropertyChanged("GameTiles");
 		}
 
-		private void testc()
+		private void testc(object sender)
 		{
-			Random rand = new Random();
+			Tile tile = sender as Tile;
+			tile.Status = 1;
 
-			MineCount = (int)(rand.Next() % 10000);
-			PlayTime = rand.Next();
+			OnPropertyChanged("GameTiles");
 		}
 	}
 }
