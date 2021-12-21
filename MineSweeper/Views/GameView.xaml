@@ -48,7 +48,7 @@
 							 HorizontalAlignment="Left" Tag="{Binding MineCount}"/>
 
 		<!-- Smile Button -->
-		<controls:SmileButton Grid.Row="1" Grid.Column="2" Width="36" Tag="0" Command="{Binding TestCommand}"/>
+		<controls:SmileButton Grid.Row="1" Grid.Column="2" Width="36" Tag="0"/>
 
 		<!-- Timer -->
 		<controls:ScoreBoard Grid.Row="1" Grid.Column="3" Margin="4" 
@@ -65,7 +65,9 @@
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<controls:GameTile Width="24" X="{Binding X}" Y="{Binding Y}" Tag="{Binding Status}" 
-									   Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.TestCommand}"
+									   LeftClick="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.LeftClickCommand}"
+									   RightClick="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RightClickCommand}"
+									   MiddleClick="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.MiddleClickCommand}"
 									   CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"/>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

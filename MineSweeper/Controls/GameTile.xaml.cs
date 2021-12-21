@@ -44,15 +44,39 @@ namespace MineSweeper.Controls
 			}
 		}
 
-		public static readonly DependencyProperty CommandProperty =
-			DependencyProperty.Register("Command", typeof(ICommand), typeof(GameTile), new UIPropertyMetadata(null));
+		public static readonly DependencyProperty LeftClickProperty =
+			DependencyProperty.Register("LeftClick", typeof(ICommand), typeof(GameTile), new UIPropertyMetadata(null));
 
-		public ICommand Command
+		public ICommand LeftClick
 		{
-			get => (ICommand)GetValue(CommandProperty);
+			get => (ICommand)GetValue(LeftClickProperty);
 			set 
 			{
-				SetValue(CommandProperty, value); 
+				SetValue(LeftClickProperty, value); 
+			}
+		}
+
+		public static readonly DependencyProperty RightClickProperty =
+			DependencyProperty.Register("RightClick", typeof(ICommand), typeof(GameTile), new UIPropertyMetadata(null));
+
+		public ICommand RightClick
+		{
+			get => (ICommand)GetValue(RightClickProperty);
+			set
+			{
+				SetValue(RightClickProperty, value);
+			}
+		}
+
+		public static readonly DependencyProperty MiddleClickProperty =
+			DependencyProperty.Register("MiddleClick", typeof(ICommand), typeof(GameTile), new UIPropertyMetadata(null));
+
+		public ICommand MiddleClick
+		{
+			get => (ICommand)GetValue(MiddleClickProperty);
+			set
+			{
+				SetValue(MiddleClickProperty, value);
 			}
 		}
 

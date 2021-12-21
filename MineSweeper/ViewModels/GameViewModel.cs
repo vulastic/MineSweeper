@@ -37,13 +37,17 @@ namespace MineSweeper.ViewModels
 
 		public int WidthCount { get => (int)Math.Sqrt(GameTiles.Count) * 24; }
 
-		public ICommand TestCommand { get; }
+		public ICommand LeftClickCommand { get; }
+		public ICommand RightClickCommand { get; }
+		public ICommand MiddleClickCommand { get; }
 
 		public ObservableCollection<Tile> GameTiles { get; set; }
 
 		public GameViewModel()
 		{
-			TestCommand = new RelayCommand<object>(testc);
+			LeftClickCommand = new RelayCommand<object>(LeftClickEvent);
+			RightClickCommand = new RelayCommand<object>(RightClickEvent);
+			MiddleClickCommand = new RelayCommand<object>(MiddleClickEvent);
 
 			GameTiles = new ObservableCollection<Tile>();
 
@@ -62,7 +66,23 @@ namespace MineSweeper.ViewModels
 			OnPropertyChanged("GameTiles");
 		}
 
-		private void testc(object sender)
+		private void LeftClickEvent(object sender)
+		{
+			Tile tile = sender as Tile;
+			tile.Status = 1;
+
+			OnPropertyChanged("GameTiles");
+		}
+
+		private void RightClickEvent(object sender)
+		{
+			Tile tile = sender as Tile;
+			tile.Status = 9;
+
+			OnPropertyChanged("GameTiles");
+		}
+
+		private void MiddleClickEvent(object sender)
 		{
 			Tile tile = sender as Tile;
 			tile.Status = 1;

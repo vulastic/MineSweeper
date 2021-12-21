@@ -70,7 +70,17 @@
 			</Setter>
 		</Style>
 	</UserControl.Resources>
-	<Button Style="{StaticResource TileButton}"
-			Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Command}"
-			CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CommandParameter}"/>
+	<Button Style="{StaticResource TileButton}">
+		<Button.InputBindings>
+			<MouseBinding MouseAction="LeftClick"
+					  Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=LeftClick}"
+					  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CommandParameter}"/>
+			<MouseBinding MouseAction="RightClick"
+					  Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RightClick}"
+					  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CommandParameter}"/>
+			<MouseBinding MouseAction="MiddleClick"
+					  Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=MiddleClick}"
+					  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CommandParameter}"/>
+		</Button.InputBindings>
+	</Button>
 </UserControl>
