@@ -6,4 +6,95 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Assets\border_bottom_left.png" />
+    <None Remove="Assets\border_bottom_right.png" />
+    <None Remove="Assets\border_hor.png" />
+    <None Remove="Assets\border_t_left.png" />
+    <None Remove="Assets\border_t_right.png" />
+    <None Remove="Assets\border_up_left.png" />
+    <None Remove="Assets\border_up_right.png" />
+    <None Remove="Assets\border_vert.png" />
+    <None Remove="Assets\closed.svg" />
+    <None Remove="Assets\d0.svg" />
+    <None Remove="Assets\d1.svg" />
+    <None Remove="Assets\d2.svg" />
+    <None Remove="Assets\d3.svg" />
+    <None Remove="Assets\d4.svg" />
+    <None Remove="Assets\d5.svg" />
+    <None Remove="Assets\d6.svg" />
+    <None Remove="Assets\d7.svg" />
+    <None Remove="Assets\d8.svg" />
+    <None Remove="Assets\d9.svg" />
+    <None Remove="Assets\face_lose.svg" />
+    <None Remove="Assets\face_pressed.svg" />
+    <None Remove="Assets\face_unpressed.svg" />
+    <None Remove="Assets\face_win.svg" />
+    <None Remove="Assets\flag.svg" />
+    <None Remove="Assets\mine.ico" />
+    <None Remove="Assets\mine.svg" />
+    <None Remove="Assets\mine_red.svg" />
+    <None Remove="Assets\nums_background.svg" />
+    <None Remove="Assets\type0.svg" />
+    <None Remove="Assets\type1.svg" />
+    <None Remove="Assets\type2.svg" />
+    <None Remove="Assets\type3.svg" />
+    <None Remove="Assets\type4.svg" />
+    <None Remove="Assets\type5.svg" />
+    <None Remove="Assets\type6.svg" />
+    <None Remove="Assets\type7.svg" />
+    <None Remove="Assets\type8.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+    <PackageReference Include="SharpVectors" Version="1.7.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Borders\border_hor.png" />
+    <Resource Include="Assets\Borders\border_vert.png" />
+    <Resource Include="Assets\Tiles\closed.svg" />
+    <Resource Include="Assets\Borders\border_bottom_left.png" />
+    <Resource Include="Assets\Borders\border_bottom_right.png" />
+    <Resource Include="Assets\Borders\border_up_left.png" />
+    <Resource Include="Assets\Borders\border_up_right.png" />
+    <Resource Include="Assets\Numbers\d0.svg" />
+    <Resource Include="Assets\Numbers\d1.svg" />
+    <Resource Include="Assets\Numbers\d2.svg" />
+    <Resource Include="Assets\Numbers\d3.svg" />
+    <Resource Include="Assets\Numbers\d4.svg" />
+    <Resource Include="Assets\Numbers\d5.svg" />
+    <Resource Include="Assets\Numbers\d6.svg" />
+    <Resource Include="Assets\Numbers\d7.svg" />
+    <Resource Include="Assets\Numbers\d8.svg" />
+    <Resource Include="Assets\Numbers\d9.svg" />
+    <Resource Include="Assets\Faces\face_lose.svg" />
+    <Resource Include="Assets\Faces\face_pressed.svg" />
+    <Resource Include="Assets\Faces\face_unpressed.svg" />
+    <Resource Include="Assets\Faces\face_win.svg" />
+    <Resource Include="Assets\Tiles\flag.svg" />
+    <Resource Include="Assets\mine.ico" />
+    <Resource Include="Assets\Tiles\mine.svg" />
+    <Resource Include="Assets\Tiles\mine_red.svg" />
+    <Resource Include="Assets\Numbers\nums_background.svg" />
+    <Resource Include="Assets\Tiles\type0.svg" />
+    <Resource Include="Assets\Tiles\type1.svg" />
+    <Resource Include="Assets\Tiles\type2.svg" />
+    <Resource Include="Assets\Tiles\type3.svg" />
+    <Resource Include="Assets\Tiles\type4.svg" />
+    <Resource Include="Assets\Tiles\type5.svg" />
+    <Resource Include="Assets\Tiles\type6.svg" />
+    <Resource Include="Assets\Tiles\type7.svg" />
+    <Resource Include="Assets\Tiles\type8.svg" />
+    <Resource Include="Assets\Borders\border_t_left.png" />
+    <Resource Include="Assets\Borders\border_t_right.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\Numbers\nums_background.svg">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
 </Project>

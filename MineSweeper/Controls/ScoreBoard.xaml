@@ -1,0 +1,181 @@
+﻿<UserControl x:Class="MineSweeper.Controls.ScoreBoard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MineSweeper.Controls"
+             mc:Ignorable="d">
+	<UserControl.Resources>
+		<local:ScoreConverter x:Key="ScoreConverter"/>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="3*"/>
+			<RowDefinition Height="31.5*"/>
+			<RowDefinition Height="3*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="3*"/>
+			<ColumnDefinition Width="16.5*"/>
+			<ColumnDefinition Width="3*"/>
+			<ColumnDefinition Width="16.5*"/>
+			<ColumnDefinition Width="3*"/>
+			<ColumnDefinition Width="16.5*"/>
+			<ColumnDefinition Width="3*"/>
+		</Grid.ColumnDefinitions>
+
+		<Image Grid.Row="0" Grid.RowSpan="3"
+			Grid.Column="0" Grid.ColumnSpan="7" 
+			Source="{StaticResource NumberBackground}"/>
+
+		<!-- Hundreds -->
+		<Image Grid.Row="1" Grid.Column="1">
+			<Image.Style>
+				<Style>
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="0">
+							<Setter Property="Image.Source" Value="{StaticResource Number0}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="1">
+							<Setter Property="Image.Source" Value="{StaticResource Number1}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="2">
+							<Setter Property="Image.Source" Value="{StaticResource Number2}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="3">
+							<Setter Property="Image.Source" Value="{StaticResource Number3}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="4">
+							<Setter Property="Image.Source" Value="{StaticResource Number4}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="5">
+							<Setter Property="Image.Source" Value="{StaticResource Number5}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="6">
+							<Setter Property="Image.Source" Value="{StaticResource Number6}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="7">
+							<Setter Property="Image.Source" Value="{StaticResource Number7}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="8">
+							<Setter Property="Image.Source" Value="{StaticResource Number8}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="9">
+							<Setter Property="Image.Source" Value="{StaticResource Number9}"/>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Image.Style>
+		</Image>
+
+		<!-- Tens -->
+		<Image Grid.Row="1" Grid.Column="3">
+			<Image.Style>
+				<Style>
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="0">
+							<Setter Property="Image.Source" Value="{StaticResource Number0}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="1">
+							<Setter Property="Image.Source" Value="{StaticResource Number1}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="2">
+							<Setter Property="Image.Source" Value="{StaticResource Number2}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="3">
+							<Setter Property="Image.Source" Value="{StaticResource Number3}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="4">
+							<Setter Property="Image.Source" Value="{StaticResource Number4}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="5">
+							<Setter Property="Image.Source" Value="{StaticResource Number5}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="6">
+							<Setter Property="Image.Source" Value="{StaticResource Number6}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="7">
+							<Setter Property="Image.Source" Value="{StaticResource Number7}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="8">
+							<Setter Property="Image.Source" Value="{StaticResource Number8}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="9">
+							<Setter Property="Image.Source" Value="{StaticResource Number9}"/>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Image.Style>
+		</Image>
+
+		<!-- Units -->
+		<Image Grid.Row="1" Grid.Column="5">
+			<Image.Style>
+				<Style>
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="0">
+							<Setter Property="Image.Source" Value="{StaticResource Number0}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="1">
+							<Setter Property="Image.Source" Value="{StaticResource Number1}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="2">
+							<Setter Property="Image.Source" Value="{StaticResource Number2}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="3">
+							<Setter Property="Image.Source" Value="{StaticResource Number3}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="4">
+							<Setter Property="Image.Source" Value="{StaticResource Number4}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="5">
+							<Setter Property="Image.Source" Value="{StaticResource Number5}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="6">
+							<Setter Property="Image.Source" Value="{StaticResource Number6}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="7">
+							<Setter Property="Image.Source" Value="{StaticResource Number7}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="8">
+							<Setter Property="Image.Source" Value="{StaticResource Number8}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="9">
+							<Setter Property="Image.Source" Value="{StaticResource Number9}"/>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Image.Style>
+		</Image>
+	</Grid>
+</UserControl>

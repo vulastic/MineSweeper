@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="MineSweeper.Views.GameView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             xmlns:local="clr-namespace:MineSweeper.Views"
+			 xmlns:viewmodels="clr-namespace:MineSweeper.ViewModels"
+			 xmlns:controls="clr-namespace:MineSweeper.Controls"
+             mc:Ignorable="d" Width="Auto" Height="Auto">
+	<UserControl.DataContext>
+		<viewmodels:GameViewModel/>
+	</UserControl.DataContext>
+	
+	<Grid Grid.Row="0" Background="{StaticResource PrimaryBackgroundColor}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="16.5"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="16.5"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="16.5"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="18"/>
+			<ColumnDefinition Width="70.5"/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="70.5"/>
+			<ColumnDefinition Width="18"/>
+		</Grid.ColumnDefinitions>
+
+		<!-- Boders -->
+		<Image Grid.Row="0" Grid.Column="0" Source="{StaticResource BorderUpLeft}"/>
+		<Image Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
+		<Image Grid.Row="0" Grid.Column="4" Source="{StaticResource BorderUpRight}"/>
+		<Image Grid.Row="1" Grid.Column="0" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
+		<Image Grid.Row="1" Grid.Column="4" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
+		<Image Grid.Row="2" Grid.Column="0" Source="{StaticResource BorderBranchLeft}"/>
+		<Image Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
+		<Image Grid.Row="2" Grid.Column="4" Source="{StaticResource BorderBranchRight}"/>
+		<Image Grid.Row="3" Grid.Column="0" Source="{StaticResource BorderVertical}"/>
+		<Image Grid.Row="3" Grid.Column="4" Source="{StaticResource BorderVertical}"/>
+		<Image Grid.Row="4" Grid.Column="0" Source="{StaticResource BorderBottomLeft}"/>
+		<Image Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
+		<Image Grid.Row="4" Grid.Column="4" Source="{StaticResource BorderBottomRight}"/>
+
+		<!-- Mine Count -->
+		<controls:ScoreBoard Grid.Row="1" Grid.Column="1" Margin="4" Tag="{Binding MineCount}"/>
+
+		<!-- Smile Button -->
+		<Image Grid.Row="1" Grid.Column="2" Width="36"
+				   Source="{StaticResource FaceUnpressed}"/>
+
+		<!-- Timer -->
+		<controls:ScoreBoard Grid.Row="1" Grid.Column="3" Margin="4" Tag="{Binding PlayTime}"/>
+		
+		<!-- Game View -->
+		<Button Grid.Row="3" Grid.Column="1" Content="TTTTT" Command="{Binding TestCommand}"/>
+	</Grid>
+</UserControl>

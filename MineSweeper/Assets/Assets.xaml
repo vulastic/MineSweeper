@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
+	<!-- Borders -->
+	<BitmapImage x:Key="BorderVertical" UriSource="pack://application:,,,/MineSweeper;component/Assets/Borders/border_vert.png"/>
+	<BitmapImage x:Key="BorderHorizontal" UriSource="pack://application:,,,/MineSweeper;component/Assets/Borders/border_hor.png"/>
+	<BitmapImage x:Key="BorderUpLeft" UriSource="pack://application:,,,/MineSweeper;component/Assets/Borders/border_up_left.png"/>
+	<BitmapImage x:Key="BorderUpRight" UriSource="pack://application:,,,/MineSweeper;component/Assets/Borders/border_up_right.png"/>
+	<BitmapImage x:Key="BorderBranchLeft" UriSource="pack://application:,,,/MineSweeper;component/Assets/Borders/border_t_left.png"/>
+	<BitmapImage x:Key="BorderBranchRight" UriSource="pack://application:,,,/MineSweeper;component/Assets/Borders/border_t_right.png"/>
+	<BitmapImage x:Key="BorderBottomLeft" UriSource="pack://application:,,,/MineSweeper;component/Assets/Borders/border_bottom_left.png"/>
+	<BitmapImage x:Key="BorderBottomRight" UriSource="pack://application:,,,/MineSweeper;component/Assets/Borders/border_bottom_right.png"/>
+
+	<!-- Faces -->
+	<svgc:SvgImage x:Key="FaceUnpressed" Source="pack://application:,,,/MineSweeper;component/Assets/Faces/face_unpressed.svg"/>
+	<svgc:SvgImage x:Key="FacePressed" Source="pack://application:,,,/MineSweeper;component/Assets/Faces/face_Pressed.svg"/>
+	<svgc:SvgImage x:Key="FaceLose" Source="pack://application:,,,/MineSweeper;component/Assets/Faces/face_lose.svg"/>
+	<svgc:SvgImage x:Key="FaceWin" Source="pack://application:,,,/MineSweeper;component/Assets/Faces/face_win.svg"/>
+
+	<!-- Numbers -->
+	<svgc:SvgImage x:Key="NumberBackground" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/nums_background.svg"/>
+	<svgc:SvgImage x:Key="Number0" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d0.svg"/>
+	<svgc:SvgImage x:Key="Number1" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d1.svg"/>
+	<svgc:SvgImage x:Key="Number2" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d2.svg"/>
+	<svgc:SvgImage x:Key="Number3" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d3.svg"/>
+	<svgc:SvgImage x:Key="Number4" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d4.svg"/>
+	<svgc:SvgImage x:Key="Number5" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d5.svg"/>
+	<svgc:SvgImage x:Key="Number6" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d6.svg"/>
+	<svgc:SvgImage x:Key="Number7" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d7.svg"/>
+	<svgc:SvgImage x:Key="Number8" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d8.svg"/>
+	<svgc:SvgImage x:Key="Number9" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d9.svg"/>
+</ResourceDictionary>

@@ -4,9 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MineSweeper"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+		xmlns:views="clr-namespace:MineSweeper.Views"
+		xmlns:viewmodels="clr-namespace:MineSweeper.ViewModels"
+		Icon="pack://application:,,,/MineSweeper;component/Assets/mine.ico"
+		ResizeMode="NoResize" SizeToContent="WidthAndHeight"
+        mc:Ignorable="d" Title="Minesweeper">
+	<Window.DataContext>
+		<viewmodels:MainViewModel/>
+	</Window.DataContext>
+	<Grid>
+		<Grid.Resources>
+			<DataTemplate DataType="{x:Type viewmodels:GameViewModel}">
+				<views:GameView/>
+			</DataTemplate>
+		</Grid.Resources>
+		<DockPanel>
+			<Menu DockPanel.Dock="Top">
+				<MenuItem Header="Play Game" Margin="5,0,0,0" Padding="3">
+					<MenuItem Header="Load Field" IsCheckable="True" IsChecked="{Binding IsLoadField}"/>
+					<MenuItem Header="Load Game" IsCheckable="True" IsChecked="{Binding IsLoadGame}"/>
+					<MenuItem Header="Play" IsEnabled="{Binding IsGameEnabled}"/>
+				</MenuItem>
+				<MenuItem Header="Set Fields" Margin="10,0,0,0" Padding="3">
+					<MenuItem Header="Auto-populate" IsCheckable="True" IsChecked="{Binding IsAutoPopulate}"/>
+					<MenuItem Header="Save into XML"/>
+				</MenuItem>
+			</Menu>
+			<ContentControl Content="{Binding GameViewModel}"/>
+		</DockPanel>
+	</Grid>
 </Window>
