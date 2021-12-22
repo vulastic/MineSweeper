@@ -45,25 +45,20 @@
 								<Setter TargetName="Tile" Property="Source" Value="{StaticResource Tile8}"/>
 							</DataTrigger>
 							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="9">
-								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileFlag}"/>
-							</DataTrigger>
-							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="10">
 								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileMine}"/>
 							</DataTrigger>
-							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="11">
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="10">
 								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileMineHit}"/>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsCovered}" Value="True">
+								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileClosed}"/>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsFlag}" Value="True">
+								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileFlag}"/>
 							</DataTrigger>
 							<Trigger Property="IsMouseOver" Value="True">
 								<Setter Property="Background" Value="Transparent"/>
 							</Trigger>
-							<MultiDataTrigger>
-								<MultiDataTrigger.Conditions>
-									<Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-										Path=Tag, Converter={StaticResource TileConverter}}" Value="True"/>
-									<Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsPressed}" Value="True"/>
-								</MultiDataTrigger.Conditions>
-								<Setter TargetName="Tile" Property="Source" Value="{StaticResource Tile0}"/>
-							</MultiDataTrigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
 				</Setter.Value>

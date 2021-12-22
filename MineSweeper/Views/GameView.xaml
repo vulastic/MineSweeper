@@ -11,66 +11,82 @@
 	<UserControl.DataContext>
 		<viewmodels:GameViewModel/>
 	</UserControl.DataContext>
-	
-	<Grid Grid.Row="0" Background="{StaticResource PrimaryBackgroundColor}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="16.5"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="16.5"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="16.5"/>
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="18"/>
-			<ColumnDefinition Width="70.5"/>
-			<ColumnDefinition Width="Auto"/>
-			<ColumnDefinition Width="70.5"/>
-			<ColumnDefinition Width="18"/>
-		</Grid.ColumnDefinitions>
 
-		<!-- Boders -->
-		<Image Grid.Row="0" Grid.Column="0" Source="{StaticResource BorderUpLeft}"/>
-		<Image Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
-		<Image Grid.Row="0" Grid.Column="4" Source="{StaticResource BorderUpRight}"/>
-		<Image Grid.Row="1" Grid.Column="0" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
-		<Image Grid.Row="1" Grid.Column="4" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
-		<Image Grid.Row="2" Grid.Column="0" Source="{StaticResource BorderBranchLeft}"/>
-		<Image Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
-		<Image Grid.Row="2" Grid.Column="4" Source="{StaticResource BorderBranchRight}"/>
-		<Image Grid.Row="3" Grid.Column="0" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
-		<Image Grid.Row="3" Grid.Column="4" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
-		<Image Grid.Row="4" Grid.Column="0" Source="{StaticResource BorderBottomLeft}"/>
-		<Image Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
-		<Image Grid.Row="4" Grid.Column="4" Source="{StaticResource BorderBottomRight}"/>
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="Play Game" Margin="5,0,0,0" Padding="3">
+				<MenuItem Header="Load Field" IsCheckable="True" IsChecked="{Binding IsLoadField}"/>
+				<MenuItem Header="Load Game" IsCheckable="True" IsChecked="{Binding IsLoadGame}"/>
+				<MenuItem Header="Play" IsEnabled="{Binding IsGameEnabled}"/>
+			</MenuItem>
+			<MenuItem Header="Set Fields" Margin="10,0,0,0" Padding="3">
+				<MenuItem Header="Auto-populate" Command="{Binding AutoPopulate}"/>
+				<MenuItem Header="Save into XML" Command="{Binding SetFieldToXML}"/>
+			</MenuItem>
+		</Menu>
 
-		<!-- Mine Count -->
-		<controls:ScoreBoard Grid.Row="1" Grid.Column="1" Margin="4" 
+		<Grid Grid.Row="0" Background="{StaticResource PrimaryBackgroundColor}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="16.5"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="16.5"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="16.5"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="18"/>
+				<ColumnDefinition Width="70.5"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="70.5"/>
+				<ColumnDefinition Width="18"/>
+			</Grid.ColumnDefinitions>
+
+			<!-- Boders -->
+			<Image Grid.Row="0" Grid.Column="0" Source="{StaticResource BorderUpLeft}"/>
+			<Image Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
+			<Image Grid.Row="0" Grid.Column="4" Source="{StaticResource BorderUpRight}"/>
+			<Image Grid.Row="1" Grid.Column="0" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
+			<Image Grid.Row="1" Grid.Column="4" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
+			<Image Grid.Row="2" Grid.Column="0" Source="{StaticResource BorderBranchLeft}"/>
+			<Image Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
+			<Image Grid.Row="2" Grid.Column="4" Source="{StaticResource BorderBranchRight}"/>
+			<Image Grid.Row="3" Grid.Column="0" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
+			<Image Grid.Row="3" Grid.Column="4" Source="{StaticResource BorderVertical}" Stretch="Fill"/>
+			<Image Grid.Row="4" Grid.Column="0" Source="{StaticResource BorderBottomLeft}"/>
+			<Image Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Source="{StaticResource BorderHorizontal}" Stretch="Fill"/>
+			<Image Grid.Row="4" Grid.Column="4" Source="{StaticResource BorderBottomRight}"/>
+
+			<!-- Mine Count -->
+			<controls:ScoreBoard Grid.Row="1" Grid.Column="1" Margin="4" 
 							 HorizontalAlignment="Left" Tag="{Binding Game.Mine}"/>
 
-		<!-- Smile Button -->
-		<controls:SmileButton Grid.Row="1" Grid.Column="2" Width="36" Tag="0"/>
+			<!-- Smile Button -->
+			<controls:SmileButton Grid.Row="1" Grid.Column="2" Width="36" Tag="0" Command="{Binding AutoPopulate}"/>
 
-		<!-- Timer -->
-		<controls:ScoreBoard Grid.Row="1" Grid.Column="3" Margin="4" 
+			<!-- Timer -->
+			<controls:ScoreBoard Grid.Row="1" Grid.Column="3" Margin="4" 
 							 HorizontalAlignment="Right" Tag="{Binding Game.Time}"/>
-		
-		<!-- Game View -->
-		<ItemsControl x:Name="GameTiles" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" ItemsSource="{Binding GameTiles}"
-					  Width="{Binding ControlWidth}">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel/>
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<controls:GameTile Width="24" X="{Binding X}" Y="{Binding Y}" Tag="{Binding Status}" 
+
+			<!-- Game View -->
+			<ItemsControl x:Name="GameTiles" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" ItemsSource="{Binding GameTiles}"
+					  Width="{Binding Width}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<controls:GameTile Width="24" X="{Binding X}" Y="{Binding Y}" 
+										   IsFlag="{Binding IsFlag}" IsCovered="{Binding IsCovered}" Tag="{Binding Status}" 
 									   LeftClick="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.LeftClickCommand}"
 									   RightClick="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.RightClickCommand}"
 									   MiddleClick="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.MiddleClickCommand}"
 									   CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"/>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</Grid>
+	</DockPanel>
+
 </UserControl>

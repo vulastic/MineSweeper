@@ -9,30 +9,31 @@ namespace MineSweeper.Models
 {
 	class MineSweeper : ObservableObject
 	{
-		private enum TileCovered
-		{
-			Uncovered = 0x00,
-			Covered = 0x10,
-		}
-
 		private enum TileValue
 		{
-			Empty = 0x00,
-			One = 0x01,
-			Two = 0x02,
-			Three = 0x03,
-			Four = 0x04,
-			Five = 0x05,
-			Six = 0x06,
-			Seven = 0x07,
-			Eight = 0x08,
-			Flag = 0x09,
-			Mine = 0x0A,
-			MineHit = 0x0B
+			Empty = 0,
+			One = 1,
+			Two = 2,
+			Three = 3,
+			Four = 4,
+			Five = 5,
+			Six = 6,
+			Seven = 7,
+			Eight = 8,
+			Mine = 9,
+			MineHit = 10
 		}
 
 		private int width = 0;
-		public int Width => width;
+		public int Width
+		{
+			get => width;
+			set
+			{
+				width = value;
+				OnPropertyChanged("Width");
+			}
+		}
 
 		private int height = 0;
 		public int Height => height;
@@ -84,7 +85,8 @@ namespace MineSweeper.Models
 					{
 						X = x,
 						Y = y,
-						Status = IsCovered ? (int)TileCovered.Covered : (int)TileCovered.Uncovered
+						Status = 0,
+						IsCovered = IsCovered
 					};
 				}
 			}
@@ -109,9 +111,9 @@ namespace MineSweeper.Models
 				int x = random.Next(0, width);
 				int y = random.Next(0, height);
 
-				if ((map[x, y].Status & (int)TileValue.Mine) == 0)
+				if (map[x, y].Status != (int)TileValue.Mine)
 				{
-					map[x, y].Status |= (int)TileValue.Mine;
+					map[x, y].Status = (int)TileValue.Mine;
 
 					--mineCount;
 					++this.mine;
@@ -135,18 +137,23 @@ namespace MineSweeper.Models
 				return;
 			}
 
-			if ((map[x, y].Status & (int)TileValue.Mine) > 0)
+			if (map[x, y].Status == (int)TileValue.Mine)
 			{
-				for (int j = y - 1; j < y + 1; ++j)
+				for (int j = y - 1; j < y + 2; ++j)
 				{
-					for (int i = x - 1; i < x + 1; ++i)
+					for (int i = x - 1; i < x + 2; ++i)
 					{
 						if (i < 0 || j < 0 || i >= width || j >= height)
 						{
 							continue;
 						}
 
-						if ((map[i, j].Status & (int)TileValue.Mine) == 0)
+						if (i == x && j == y)
+						{
+							continue;
+						}
+
+						if (map[i, j].Status != (int)TileValue.Mine)
 						{
 							map[i, j].Status += 1;
 						}

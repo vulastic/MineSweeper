@@ -15,14 +15,52 @@ namespace MineSweeper.ViewModels
 {
 	class GameViewModel : ObservableRecipient
 	{
+		#region Play Game
+		private bool isLoadField = false;
+		public bool IsLoadField
+		{
+			get => isLoadField;
+			set
+			{
+				isLoadField = value;
+				this.OnPropertyChanged("IsGameEnabled");
+			}
+		}
+
+		private bool isLoadGame = false;
+		public bool IsLoadGame
+		{
+			get => isLoadGame;
+			set
+			{
+				isLoadGame = value;
+				OnPropertyChanged("IsGameEnabled");
+			}
+		}
+
+		public bool IsGameEnabled { get => isLoadField | isLoadGame; }
+
+		public ICommand PlayGame { get; } = new RelayCommand(() =>
+		{
+			Console.WriteLine("aa");
+		});
+		#endregion
+
+		#region Set Fields
+		public ICommand AutoPopulate { get; }
+		public ICommand SetFieldToXML { get; }
+		#endregion
+
 		private Models.MineSweeper game = new Models.MineSweeper();
 		public Models.MineSweeper Game => game;
 
-		public int ControlWidth => Game.Width * 24;
+		public int Width => Game.Width * 24;
 
 		public ICommand LeftClickCommand { get; }
 		public ICommand RightClickCommand { get; }
 		public ICommand MiddleClickCommand { get; }
+
+		
 
 		private ObservableCollection<Tile> gameTiles = new();
 		public ObservableCollection<Tile> GameTiles
@@ -31,7 +69,7 @@ namespace MineSweeper.ViewModels
 			set
 			{
 				gameTiles = value;
-				OnPropertyChanging("GameTIles");
+				OnPropertyChanging("GameTiles");
 			}
 		}
 
@@ -41,47 +79,41 @@ namespace MineSweeper.ViewModels
 			RightClickCommand = new RelayCommand<object>(RightClickEvent);
 			MiddleClickCommand = new RelayCommand<object>(MiddleClickEvent);
 
+			// Set Field
+			AutoPopulate = new RelayCommand<object>(AutoPopulateEvent);
+			SetFieldToXML = new RelayCommand<object>(SetFieldToXMLEvent);
+
 			// Default
 			game.Init(16, 16, true);
-
+			game.AutoGenerate(40);
 			game.Map.ForEach(x => GameTiles.Add(x));
 		}
 
 		private void LeftClickEvent(object sender)
 		{
-			Tile tile = sender as Tile;
-			tile.Status = 1;
-
-			OnPropertyChanged("GameTiles");
+			
 		}
 
 		private void RightClickEvent(object sender)
 		{
-			Tile tile = sender as Tile;
-			tile.Status = 9;
-
-			OnPropertyChanged("GameTiles");
+			
 		}
 
 		private void MiddleClickEvent(object sender)
 		{
-			Tile tile = sender as Tile;
-			tile.Status = 1;
-
-			OnPropertyChanged("GameTiles");
+			
 		}
 
-		public void AutoPopulate()
+		private void AutoPopulateEvent(object sender)
 		{
-			game.Init(40, 40, false);
+			game.Init(16, 16, false);
 			game.AutoGenerate(40);
 
 			GameTiles.Clear();
-			GameTiles = new ObservableCollection<Tile>();
 			game.Map.ForEach(x => GameTiles.Add(x));
 		}
 
-		public void SetFieldToXML()
+		private void SetFieldToXMLEvent(object sender)
 		{
 
 		}

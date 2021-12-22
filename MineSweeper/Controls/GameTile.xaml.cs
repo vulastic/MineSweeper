@@ -44,6 +44,30 @@ namespace MineSweeper.Controls
 			}
 		}
 
+		public static readonly DependencyProperty FlagProperty =
+			DependencyProperty.Register("IsFlag", typeof(bool), typeof(GameTile), new PropertyMetadata(false));
+
+		public bool IsFlag
+		{
+			get => (bool)GetValue(FlagProperty);
+			set
+			{
+				SetValue(FlagProperty, value);
+			}
+		}
+
+		public static readonly DependencyProperty CoveredProperty =
+			DependencyProperty.Register("IsCovered", typeof(bool), typeof(GameTile), new PropertyMetadata(false));
+
+		public bool IsCovered
+		{
+			get => (bool)GetValue(CoveredProperty);
+			set
+			{
+				SetValue(CoveredProperty, value);
+			}
+		}
+
 		public static readonly DependencyProperty LeftClickProperty =
 			DependencyProperty.Register("LeftClick", typeof(ICommand), typeof(GameTile), new UIPropertyMetadata(null));
 

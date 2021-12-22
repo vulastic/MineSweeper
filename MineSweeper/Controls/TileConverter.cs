@@ -16,7 +16,7 @@ namespace MineSweeper.Controls
 			try
 			{
 				int number = System.Convert.ToInt32(value);
-				if (number < 12)
+				if ((number & 0x10) == 0)
 				{
 					return false;
 				}
