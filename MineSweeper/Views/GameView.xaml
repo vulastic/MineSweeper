@@ -45,18 +45,18 @@
 
 		<!-- Mine Count -->
 		<controls:ScoreBoard Grid.Row="1" Grid.Column="1" Margin="4" 
-							 HorizontalAlignment="Left" Tag="{Binding MineCount}"/>
+							 HorizontalAlignment="Left" Tag="{Binding Game.Mine}"/>
 
 		<!-- Smile Button -->
 		<controls:SmileButton Grid.Row="1" Grid.Column="2" Width="36" Tag="0"/>
 
 		<!-- Timer -->
 		<controls:ScoreBoard Grid.Row="1" Grid.Column="3" Margin="4" 
-							 HorizontalAlignment="Right" Tag="{Binding PlayTime}"/>
+							 HorizontalAlignment="Right" Tag="{Binding Game.Time}"/>
 		
 		<!-- Game View -->
-		<ItemsControl Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" ItemsSource="{Binding GameTiles}"
-					  Width="{Binding WidthCount}">
+		<ItemsControl x:Name="GameTiles" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" ItemsSource="{Binding GameTiles}"
+					  Width="{Binding ControlWidth}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<WrapPanel/>

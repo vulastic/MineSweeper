@@ -43,19 +43,26 @@ namespace MineSweeper.ViewModels
 		#endregion
 
 		#region Set Field
-		public bool IsAutoPopulate { get; set; } = false;
-
-		public ICommand SetField { get; } = new RelayCommand(() =>
-		{
-			Console.WriteLine("aa");
-		});
+		public ICommand AutoPopulate { get; }
+		public ICommand SetFieldToXML { get; }
 		#endregion
 
-		public ObservableRecipient GameViewModel { get; } = new GameViewModel();
+		public GameViewModel GameViewModel { get; } = new GameViewModel();
 
 		public MainViewModel()
 		{
-			
+			this.AutoPopulate = new RelayCommand(AutoPopulateEvent);
+			this.SetFieldToXML = new RelayCommand(SetFieldToXMLEvent);
+		}
+
+		private void AutoPopulateEvent()
+		{
+			GameViewModel.AutoPopulate();
+		}
+
+		private void SetFieldToXMLEvent()
+		{
+			GameViewModel.SetFieldToXML();
 		}
 
 

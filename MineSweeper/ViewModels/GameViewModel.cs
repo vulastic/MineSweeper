@@ -4,44 +4,36 @@ using MineSweeper.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace MineSweeper.ViewModels
 {
 	class GameViewModel : ObservableRecipient
 	{
-		private int mineCount;
-		public int MineCount
-		{
-			get => mineCount;
-			set
-			{
-				mineCount = value;
-				OnPropertyChanged("MineCount");
-			}
-		}
+		private Models.MineSweeper game = new Models.MineSweeper();
+		public Models.MineSweeper Game => game;
 
-		private int playTime;
-		public int PlayTime
-		{
-			get => playTime;
-			set
-			{
-				playTime = value;
-				OnPropertyChanged("PlayTime");
-			}
-		}
-
-		public int WidthCount { get => (int)Math.Sqrt(GameTiles.Count) * 24; }
+		public int ControlWidth => Game.Width * 24;
 
 		public ICommand LeftClickCommand { get; }
 		public ICommand RightClickCommand { get; }
 		public ICommand MiddleClickCommand { get; }
 
-		public ObservableCollection<Tile> GameTiles { get; set; }
+		private ObservableCollection<Tile> gameTiles = new();
+		public ObservableCollection<Tile> GameTiles
+		{
+			get => gameTiles;
+			set
+			{
+				gameTiles = value;
+				OnPropertyChanging("GameTIles");
+			}
+		}
 
 		public GameViewModel()
 		{
@@ -49,21 +41,10 @@ namespace MineSweeper.ViewModels
 			RightClickCommand = new RelayCommand<object>(RightClickEvent);
 			MiddleClickCommand = new RelayCommand<object>(MiddleClickEvent);
 
-			GameTiles = new ObservableCollection<Tile>();
+			// Default
+			game.Init(16, 16, true);
 
-			for(int i = 0; i < 16; ++i)
-			{
-				for (int j = 0; j < 16; ++j)
-				{
-					GameTiles.Add(new Tile()
-					{
-						X = i,
-						Y = j,
-						Status = 12
-					});
-				}
-			}
-			OnPropertyChanged("GameTiles");
+			game.Map.ForEach(x => GameTiles.Add(x));
 		}
 
 		private void LeftClickEvent(object sender)
@@ -88,6 +69,21 @@ namespace MineSweeper.ViewModels
 			tile.Status = 1;
 
 			OnPropertyChanged("GameTiles");
+		}
+
+		public void AutoPopulate()
+		{
+			game.Init(40, 40, false);
+			game.AutoGenerate(40);
+
+			GameTiles.Clear();
+			GameTiles = new ObservableCollection<Tile>();
+			game.Map.ForEach(x => GameTiles.Add(x));
+		}
+
+		public void SetFieldToXML()
+		{
+
 		}
 	}
 }
