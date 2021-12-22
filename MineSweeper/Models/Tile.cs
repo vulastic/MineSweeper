@@ -11,48 +11,16 @@ namespace MineSweeper.Models
 	{
 		public int X { get; set; }
 		public int Y { get; set; }
+		public int Value { get; set; }
 
-		private int status;
-		public int Status
+		private int display = 0;
+		public int Display
 		{
-			get => status;
+			get => display;
 			set
 			{
-				status = value;
-				OnPropertyChanged("Status");
-			}
-		}
-
-		private bool isCovered = false;
-		public bool IsCovered
-		{
-			get => isCovered;
-			set
-			{
-				isCovered = value;
-				OnPropertyChanged("IsCovered");
-			}
-		}
-
-		private bool isFlag = false;
-		public bool IsFlag
-		{
-			get => isFlag;
-			set
-			{
-				isFlag = value;
-				OnPropertyChanged("IsFlag");
-			}
-		}
-
-		private bool isPressed = false;
-		public bool IsPressed
-		{
-			get => isPressed;
-			set
-			{
-				isPressed = value;
-				OnPropertyChanged("IsPressed");
+				display = value;
+				OnPropertyChanged("Display");
 			}
 		}
 	}

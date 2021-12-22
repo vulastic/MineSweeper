@@ -34,6 +34,10 @@
 				<Style TargetType="{x:Type Image}">
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="-">
+							<Setter Property="Source" Value="{StaticResource Number-}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
 								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Hundreds'}" Value="0">
 							<Setter Property="Source" Value="{StaticResource Number0}"/>
 						</DataTrigger>
@@ -84,6 +88,10 @@
 				<Style TargetType="{x:Type Image}">
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="-">
+							<Setter Property="Source" Value="{StaticResource Number-}"/>
+						</DataTrigger>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
 								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Tens'}" Value="0">
 							<Setter Property="Source" Value="{StaticResource Number0}"/>
 						</DataTrigger>
@@ -133,6 +141,10 @@
 			<Image.Style>
 				<Style TargetType="{x:Type Image}">
 					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="-">
+							<Setter Property="Source" Value="{StaticResource Number-}"/>
+						</DataTrigger>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
 								Path=Tag, Converter={StaticResource ScoreConverter}, ConverterParameter='Units'}" Value="0">
 							<Setter Property="Source" Value="{StaticResource Number0}"/>

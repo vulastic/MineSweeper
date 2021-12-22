@@ -19,6 +19,7 @@
 
 	<!-- Numbers -->
 	<svgc:SvgImage x:Key="NumberBackground" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/nums_background.svg"/>
+	<svgc:SvgImage x:Key="Number-" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d-.svg"/>
 	<svgc:SvgImage x:Key="Number0" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d0.svg"/>
 	<svgc:SvgImage x:Key="Number1" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d1.svg"/>
 	<svgc:SvgImage x:Key="Number2" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d2.svg"/>
@@ -31,7 +32,6 @@
 	<svgc:SvgImage x:Key="Number9" Source="pack://application:,,,/MineSweeper;component/Assets/Numbers/d9.svg"/>
 	
 	<!-- Tiles -->
-	<svgc:SvgImage x:Key="TileClosed" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/closed.svg"/>
 	<svgc:SvgImage x:Key="Tile0" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type0.svg"/>
 	<svgc:SvgImage x:Key="Tile1" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type1.svg"/>
 	<svgc:SvgImage x:Key="Tile2" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type2.svg"/>
@@ -41,7 +41,9 @@
 	<svgc:SvgImage x:Key="Tile6" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type6.svg"/>
 	<svgc:SvgImage x:Key="Tile7" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type7.svg"/>
 	<svgc:SvgImage x:Key="Tile8" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/type8.svg"/>
-	<svgc:SvgImage x:Key="TileFlag" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/flag.svg"/>
 	<svgc:SvgImage x:Key="TileMine" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/mine.svg"/>
 	<svgc:SvgImage x:Key="TileMineHit" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/mine_red.svg"/>
+	<svgc:SvgImage x:Key="TileFlag" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/flag.svg"/>
+	<svgc:SvgImage x:Key="TileFlagWrong" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/flag_wrong.svg"/>
+	<svgc:SvgImage x:Key="TileClosed" Source="pack://application:,,,/MineSweeper;component/Assets/Tiles/closed.svg"/>
 </ResourceDictionary>

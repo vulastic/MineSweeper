@@ -46,6 +46,7 @@ namespace MineSweeper.ViewModels
 		#endregion
 
 		#region Set Fields
+		public ICommand ResetGame { get; }
 		public ICommand AutoPopulate { get; }
 		public ICommand SetFieldToXML { get; }
 		#endregion
@@ -83,6 +84,7 @@ namespace MineSweeper.ViewModels
 
 		public GameViewModel()
 		{
+			// Mouse Event
 			LeftClick = new RelayCommand<object>(LeftClickEvent);
 			RightClick = new RelayCommand<object>(RightClickEvent);
 			MouseRelease = new RelayCommand<object>(MouseReleaseEvent);
@@ -93,10 +95,11 @@ namespace MineSweeper.ViewModels
 			PlayGame = new RelayCommand<object>(PlayGameEvent);
 
 			// Set Field
+			ResetGame = new RelayCommand<object>(ResetGameEvent);
 			AutoPopulate = new RelayCommand<object>(AutoPopulateEvent);
 			SetFieldToXML = new RelayCommand<object>(SetFieldToXMLEvent);
 
-			// Default
+			// Set Default Tiles
 			game.Init(16, 16, true);
 			game.AutoGenerate(40);
 			game.Map.ForEach(x => GameTiles.Add(x));
@@ -118,7 +121,7 @@ namespace MineSweeper.ViewModels
 			}
 
 			// Game Mode
-			game.LeftClick(tile.X, tile.Y);
+			game.PressTile(tile.X, tile.Y);
 		}
 
 		private void RightClickEvent(object sender)
@@ -135,12 +138,12 @@ namespace MineSweeper.ViewModels
 				return;
 			}
 
-			game.RightClick(tile.X, tile.Y);
+			game.SetFlag(tile.X, tile.Y);
 		}
 
 		private void MouseReleaseEvent(object sender)
 		{
-			game.ReleasePressed();
+			game.ReleaseTile();
 		}
 
 		private void LoadFieldEvent(object sender)
@@ -151,7 +154,7 @@ namespace MineSweeper.ViewModels
 			int width, height;
 			bool isSuccess = XmlHelper.GetFieldToXML(inputpath, out width, out height, out tiles);
 
-			game.SetField(width, height, true, tiles);
+			game.Init(width, height, true, tiles);
 
 			GameTiles.Clear();
 			game.Map.ForEach(x => GameTiles.Add(x));
@@ -170,16 +173,27 @@ namespace MineSweeper.ViewModels
 
 		}
 
+		private void ResetGameEvent(object sender)
+		{
+			// disable edit mode
+			this.IsEditMode = false;
+
+			game.Init();
+			game.AutoGenerate(40);
+		}
+
 		private void AutoPopulateEvent(object sender)
 		{
-			game.Init(16, 16, false);
-			game.AutoGenerate(40);
-
-			GameTiles.Clear();
-			game.Map.ForEach(x => GameTiles.Add(x));
-
 			// set edit mode
 			this.IsEditMode = true;
+
+			//game.Init(16, 16, false);
+			game.Init();
+			game.AutoGenerate(40);
+			game.OpenAllTiles();
+
+			//GameTiles.Clear();
+			//game.Map.ForEach(x => GameTiles.Add(x));
 		}
 
 		private void SetFieldToXMLEvent(object sender)

@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace MineSweeper.Models
 {
@@ -21,7 +23,19 @@ namespace MineSweeper.Models
 			Seven = 7,
 			Eight = 8,
 			Mine = 9,
-			MineHit = 10
+			MineHit = 10,
+			Flag = 11,
+			FlagWrong = 12,
+			Closed = 13,
+			Pressed = 14
+		}
+
+		public enum GameState
+		{
+			None,
+			Play,
+			Win,
+			Lose
 		}
 
 		private int width = 0;
@@ -60,10 +74,24 @@ namespace MineSweeper.Models
 			}
 		}
 
+		private GameState state = GameState.Play;
+		public int State
+		{
+			get => (int)state;
+			set
+			{
+				state = (GameState)value;
+				OnPropertyChanged("State");
+			}
+		}
+
+
 		private Tile[,] map;
 		public List<Tile> Map => map.Cast<Tile>().ToList();
 
-		private Tile selectedTile;
+		private Tile selected;
+
+		private DispatcherTimer timer;
 
 		public MineSweeper()
 		{
@@ -87,112 +115,256 @@ namespace MineSweeper.Models
 					{
 						X = x,
 						Y = y,
-						Status = 0,
-						IsCovered = IsCovered
+						Value = (int)TileValue.Empty,
+						Display = IsCovered ? (int)TileValue.Closed : (int)TileValue.Empty
 					};
 				}
 			}
 			this.Mine = 0;
 			this.Time = 0;
+			this.State = (int)GameState.None;
 		}
 
-		public void LeftClick(int x, int y)
+		private void WinGame()
 		{
+			if (state == GameState.Play)
+			{
+				State = (int)GameState.Win;
+
+				// Stop Timer
+				timer.Stop();
+			}
+		}
+
+		private void LoseGame()
+		{
+			if (state == GameState.Play)
+			{
+				State = (int)GameState.Lose;
+
+				// Stop Timer
+				timer.Stop();
+			}
+		}
+
+		private void PlayGame()
+		{
+			if (state == GameState.None)
+			{
+				State = (int)GameState.Play;
+
+				// 타이머 시작
+				timer = new DispatcherTimer();
+				timer.Interval = TimeSpan.FromMilliseconds(1000);
+				timer.Tick += new EventHandler(UpdateTimer);
+				timer.Start();
+			}
+		}
+
+		public void PressTile(int x, int y)
+		{
+			PlayGame();
+
+			if (state != GameState.Play)
+			{
+				return;
+			}
+
 			if (x < 0 || y < 0 || x >= width || y >= height)
 			{
 				return;
 			}
 
-			selectedTile = map[x, y];
-			if (selectedTile.IsFlag == true)
+			selected = map[x, y];
+			if (selected.Display == (int)TileValue.Flag)
 			{
-				// cannot click the flag
-				selectedTile = null;
+				// cannot press the flag
+				selected = null;
 				return;
 			}
 
-			// Hit Number Tile
-			if (selectedTile.IsCovered == false && selectedTile.Status <= (int)TileValue.Eight)
+			// press opened number tile
+			if (selected.Display <= (int)TileValue.Eight)
 			{
-				// Searching eight direction. if there are not a mine, it will be opened.
-				SearchMineAround(x, y, true);
+				// Press around 
+				SetPressAround(x, y);
+				return;
 			}
 
-			else if (selectedTile.IsCovered == true)
+			// pass other unclosed tile
+			if (selected.Display != (int)TileValue.Closed)
 			{
-				selectedTile.IsPressed = true;
+				selected = null;
+				return;
+			}
+
+			// Press
+			selected.Display = (int)TileValue.Pressed;
+		}
+
+		private void SetPressAround(int x, int y)
+		{
+			for (int j = y - 1; j < y + 2; ++j)
+			{
+				for (int i = x - 1; i < x + 2; ++i)
+				{
+					if (i < 0 || j < 0 || i >= width || j >= height)
+					{
+						continue;
+					}
+
+					Tile tile = map[i, j];
+					if (tile.Display == (int)TileValue.Closed)
+					{
+						tile.Display = (int)TileValue.Pressed;
+					}
+				}
 			}
 		}
 
-		public void RightClick(int x, int y )
+		public void SetFlag(int x, int y )
 		{
+			PlayGame();
+
+			if (state != GameState.Play)
+			{
+				return;
+			}
+
 			if (x < 0 || y < 0 || x >= width || y >= height)
 			{
 				return;
 			}
 
-			selectedTile = map[x, y];
-			if (selectedTile.IsFlag)
+			selected = map[x, y];
+			if (selected.Display == (int)TileValue.Flag)
 			{
-				selectedTile.IsFlag = false;
+				selected.Display = (int)TileValue.Closed;
+				++this.Mine;
 			}
-			else if (selectedTile.IsCovered == true)
+			else if(selected.Display == (int)TileValue.Closed)
 			{
-				selectedTile.IsFlag = true;
+				selected.Display = (int)TileValue.Flag;
+				--this.Mine;
 			}
+			selected = null;
 
-			selectedTile = null;
+			// Check Win
+			if (this.Mine == 0)
+			{
+				int count = 0;
+				for (int j = 0; j < height; ++j)
+				{
+					for (int i = 0; i < width; ++i)
+					{
+						Tile tile = map[i, j];
+						if (tile.Value == (int)TileValue.Mine && tile.Display != (int)TileValue.Flag)
+						{
+							++count;
+						}
+					}
+				}
+
+				if (count == 0)
+				{
+					WinGame();
+				}
+			}
 		}
 
-		public void ReleasePressed()
+		public void ReleaseTile()
 		{
-			if (selectedTile == null)
+			if (state != GameState.Play)
+			{
+				return;
+			}
+
+			if (selected == null)
 			{
 				return;
 			}
 
 			// Hit the mine
-			if (selectedTile.Status == (int)TileValue.Mine)
+			if (selected.Value == (int)TileValue.Mine)
 			{
-				selectedTile.IsCovered = false;
-				selectedTile.Status = (int)TileValue.MineHit;
-				OpenAllMine();
+				OpenAllMine(selected.X, selected.Y);
+				selected = null;
+				LoseGame();
 				return;
 			}
 
 			// Empty tile
-			if (selectedTile.Status == (int)TileValue.Empty)
+			if (selected.Value == (int)TileValue.Empty)
 			{
-				selectedTile.IsCovered = false;
-				OpenEmptyTile(selectedTile.X, selectedTile.Y);
+				OpenEmptyTile(selected.X, selected.Y);
+				selected = null;
 				return;
 			}
 
 			// Number Tile
-			if (selectedTile.Status <= (int)TileValue.Eight)
+			if (selected.Value <= (int)TileValue.Eight)
 			{
 				// Searching eight direction. if there are not a mine, it will be opened.
-				int count = SearchMineAround(selectedTile.X, selectedTile.Y, false);
-				if (count == 0)
+				List<Tile> pressed, mines;
+				GetPressAround(selected.X, selected.Y, out pressed, out mines);
+				if (mines.Count == 1 && mines.Count == pressed.Count)
 				{
-					OpenAround(selectedTile.X, selectedTile.Y);
+					// gameover
+					OpenAllMine(mines[0].X, mines[0].Y);
+					selected = null;
+					LoseGame();
+					return;
+				}
+
+				if (mines.Count == 0)
+				{
+					foreach (Tile tile in pressed)
+					{
+						tile.Display = tile.Value;
+					}
 				}
 			}
 
-			selectedTile.IsPressed = false;
-			selectedTile.IsCovered = false;
+			// others
+			selected.Display = selected.Value;
+			selected = null;
+
+
 		}
 
-		private void OpenAllMine()
+		public void OpenAllTiles()
 		{
 			for (int y = 0; y < height; ++y)
 			{
 				for (int x = 0; x < width; ++x)
 				{
 					Tile tile = map[x, y];
-					if (tile.Status == (int)TileValue.Mine)
+					tile.Display = tile.Value;
+				}
+			}
+		}
+
+		private void OpenAllMine(int x, int y)
+		{
+			for (int j = 0; j < height; ++j)
+			{
+				for (int i = 0; i < width; ++i)
+				{
+					Tile tile = map[i, j];
+					if (tile.Value == (int)TileValue.Mine)
 					{
-						map[x, y].IsCovered = false;
+						if (i == x && j == y)
+						{
+							tile.Display = (int)TileValue.MineHit;
+						}
+						else if (tile.Display != (int)TileValue.Flag)
+						{
+							tile.Display = (int)TileValue.Mine;
+						}
+					}
+					else if (tile.Display == (int)TileValue.Flag)
+					{
+						tile.Display = (int)TileValue.FlagWrong;
 					}
 				}
 			}
@@ -206,8 +378,12 @@ namespace MineSweeper.Models
 				return;
 			}
 
-			if (map[x, y].Status == (int)TileValue.Empty)
+			if (map[x, y].Value == (int)TileValue.Empty)
 			{
+				// set self
+				map[x, y].Display = map[x, y].Value;
+
+				// Open around
 				for (int j = y - 1; j < y + 2; ++j)
 				{
 					for (int i = x - 1; i < x + 2; ++i)
@@ -223,26 +399,27 @@ namespace MineSweeper.Models
 						}
 
 						Tile tile = map[i, j];
-						if (tile.IsFlag == true || tile.IsCovered == false)
+						if (tile.Display != (int)TileValue.Closed)
 						{
 							continue;
 						}
 
-						if (tile.Status == (int)TileValue.Mine || tile.Status == (int)TileValue.MineHit)
+						if (tile.Value == (int)TileValue.Mine)
 						{
 							continue;
 						}
 
-						tile.IsCovered = false;
+						tile.Display = tile.Value;
 						OpenEmptyTile(i, j);
 					}	
 				}
 			}
 		}
 
-		private int SearchMineAround(int x, int y, bool isPressed = false)
+		private void GetPressAround(int x, int y, out List<Tile> pressed, out List<Tile> mines)
 		{
-			int mineCount = 0;
+			mines = new();
+			pressed = new();
 			for (int j = y - 1; j < y + 2; ++j)
 			{
 				for (int i = x - 1; i < x + 2; ++i)
@@ -258,64 +435,31 @@ namespace MineSweeper.Models
 					}
 
 					Tile tile = map[i, j];
-					if (tile.IsFlag == true || tile.IsCovered == false)
+					if(tile.Display == (int)TileValue.Pressed)
 					{
-						continue;
-					}
+						pressed.Add(tile);
 
-					if (tile.IsCovered == true)
-					{
-						tile.IsPressed = isPressed;
+						if (tile.Value == (int)TileValue.Mine)
+						{
+							mines.Add(tile);
+						}
 					}
-					
-					if (tile.Status == (int)TileValue.Mine)
-					{
-						++mineCount;
-					}
-				}
-			}
-			return mineCount;
-		}
-
-		private void OpenAround(int x, int y)
-		{
-			for (int j = y - 1; j < y + 2; ++j)
-			{
-				for (int i = x - 1; i < x + 2; ++i)
-				{
-					if (i < 0 || j < 0 || i >= width || j >= height)
-					{
-						continue;
-					}
-
-					if (i == x && j == y)
-					{
-						continue;
-					}
-
-					Tile tile = map[i, j];
-					if (tile.IsFlag == true || tile.IsCovered == false)
-					{
-						continue;
-					}
-
-					tile.IsCovered = false;
 				}
 			}
 		}
 
-		public void SetField(int width, int height, bool IsCovered, List<Tile> tiles)
+		public void Init(int width, int height, bool IsCovered, List<Tile> tiles)
 		{
 			this.Mine = 0;
 			this.Time = 0;
+			this.State = (int)GameState.None;
 
 			map = new Tile[width, height];
 
 			foreach (Tile tile in tiles)
 			{
-				tile.IsCovered = IsCovered;
 				map[tile.X, tile.Y] = tile;
-				if (tile.Status == (int)TileValue.Mine)
+				if (tile.Value == (int)TileValue.Mine)
 				{
 					++this.Mine;
 				}
@@ -328,10 +472,42 @@ namespace MineSweeper.Models
 					CalculateField(x, y);
 				}
 			}
+
+			for (int y = 0; y < height; ++y)
+			{
+				for (int x = 0; x < width; ++x)
+				{
+					Tile tile = map[x, y];
+					if (IsCovered)
+					{
+						tile.Display = (int)TileValue.Closed;
+					}
+					else
+					{
+						tile.Display = tile.Value;
+					}
+				}
+			}
+		}
+
+		public void Init()
+		{
+			for (int y = 0; y < height; ++y)
+			{
+				for (int x = 0; x < width; ++x)
+				{
+					map[x, y].Value = 0;
+					map[x, y].Display = (int)TileValue.Closed;
+				}
+			}
 		}
 
 		public void AutoGenerate(int mineCount = -1)
 		{
+			this.Mine = 0;
+			this.Time = 0;
+			this.State = (int)GameState.None;
+
 			Random random = new Random();
 
 			// under zero is random
@@ -346,9 +522,9 @@ namespace MineSweeper.Models
 				int x = random.Next(0, width);
 				int y = random.Next(0, height);
 
-				if (map[x, y].Status != (int)TileValue.Mine)
+				if (map[x, y].Value != (int)TileValue.Mine)
 				{
-					map[x, y].Status = (int)TileValue.Mine;
+					map[x, y].Value = (int)TileValue.Mine;
 
 					--mineCount;
 					++this.Mine;
@@ -372,7 +548,7 @@ namespace MineSweeper.Models
 				return;
 			}
 
-			if (map[x, y].Status == (int)TileValue.Mine)
+			if (map[x, y].Value == (int)TileValue.Mine)
 			{
 				for (int j = y - 1; j < y + 2; ++j)
 				{
@@ -388,9 +564,9 @@ namespace MineSweeper.Models
 							continue;
 						}
 
-						if (map[i, j].Status != (int)TileValue.Mine)
+						if (map[i, j].Value != (int)TileValue.Mine)
 						{
-							map[i, j].Status += 1;
+							map[i, j].Value += 1;
 						}
 					}
 				}
@@ -420,9 +596,9 @@ namespace MineSweeper.Models
 						continue;
 					}
 
-					if (map[i, j].Status != (int)TileValue.Mine)
+					if (map[i, j].Value != (int)TileValue.Mine)
 					{
-						map[i, j].Status -= 1;
+						map[i, j].Value -= 1;
 					}
 					else
 					{
@@ -430,25 +606,44 @@ namespace MineSweeper.Models
 					}
 				}
 			}
-			map[x, y].Status = mineCount;
+			map[x, y].Value = mineCount;
 		}
 
 		public void SetMine(int x, int y)
 		{
-			if (map[x, y].Status == (int)TileValue.Mine)
+			if (map[x, y].Value == (int)TileValue.Mine)
 			{
-				map[x, y].Status = (int)TileValue.Empty;
+				map[x, y].Value = (int)TileValue.Empty;
 
 				ReCalculateField(x, y);
 				--this.Mine;
 			}
-			else if (map[x, y].Status != (int)TileValue.Mine)
+			else if (map[x, y].Value != (int)TileValue.Mine)
 			{
-				map[x, y].Status = (int)TileValue.Mine;
+				map[x, y].Value = (int)TileValue.Mine;
 
 				CalculateField(x, y);
 				++this.Mine;
 			}
+
+			// Display
+			for (int j = y - 1; j < y + 2; ++j)
+			{
+				for (int i = x - 1; i < x + 2; ++i)
+				{
+					if (i < 0 || j < 0 || i >= width || j >= height)
+					{
+						continue;
+					}
+
+					map[i, j].Display = map[i, j].Value;
+				}
+			}
+		}
+
+		private void UpdateTimer(Object sender, EventArgs e)
+		{
+			this.Time += 1;
 		}
 	}
 }

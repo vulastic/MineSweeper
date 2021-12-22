@@ -20,24 +20,24 @@ namespace MineSweeper.Controls
 
 			try
 			{
-				int number = System.Convert.ToInt32(value);
+				string number = value.ToString();
 				switch(parameter)
 				{
 					case "Hundreds":
-						return number % 1000 / 100;
+						return number.Substring(number.Length - 3, 1);
 
 					case "Tens":
-						return number % 100 / 10;
+						return number.Substring(number.Length - 2, 1);
 
 					case "Units":
-						return number % 10;
+						return number.Substring(number.Length - 1, 1);
 				}
 			}
 			catch (Exception ex)
 			{
 				Debug.WriteLine($"Warning: Invalid value. Value = {value}, Parameter = {parameter}, Exception = {ex.Message}");
 			}
-			return 0;
+			return "0";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

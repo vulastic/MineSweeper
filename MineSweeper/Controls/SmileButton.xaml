@@ -20,9 +20,12 @@
 								<Setter TargetName="Smile" Property="Source" Value="{StaticResource FaceUnpressed}"/>
 							</DataTrigger>
 							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="1">
-								<Setter TargetName="Smile" Property="Source" Value="{StaticResource FaceWin}"/>
+								<Setter TargetName="Smile" Property="Source" Value="{StaticResource FaceUnpressed}"/>
 							</DataTrigger>
 							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="2">
+								<Setter TargetName="Smile" Property="Source" Value="{StaticResource FaceWin}"/>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="3">
 								<Setter TargetName="Smile" Property="Source" Value="{StaticResource FaceLose}"/>
 							</DataTrigger>
 							<Trigger Property="IsMouseOver" Value="True">

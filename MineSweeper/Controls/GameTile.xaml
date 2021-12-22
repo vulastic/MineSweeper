@@ -51,14 +51,17 @@
 							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="10">
 								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileMineHit}"/>
 							</DataTrigger>
-							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsCovered}" Value="True">
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="11">
+								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileFlag}"/>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="12">
+								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileFlagWrong}"/>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="13">
 								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileClosed}"/>
 							</DataTrigger>
-							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsPressed}" Value="True">
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Tag}" Value="14">
 								<Setter TargetName="Tile" Property="Source" Value="{StaticResource Tile0}"/>
-							</DataTrigger>
-							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsFlag}" Value="True">
-								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileFlag}"/>
 							</DataTrigger>
 							<Trigger Property="IsMouseOver" Value="True">
 								<Setter Property="Background" Value="Transparent"/>

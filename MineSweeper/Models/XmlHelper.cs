@@ -45,7 +45,7 @@ namespace MineSweeper.Models
 					writer.WriteAttributeString("row", tile.Y.ToString());
 					writer.WriteAttributeString("column", tile.X.ToString());
 
-					string isMine = ((tile.Status == 9) || (tile.Status == 10)) ? "yes" : "no";    // 9, 10 = Mine
+					string isMine = ((tile.Value == 9) || (tile.Value == 10)) ? "yes" : "no";    // 9, 10 = Mine
 					writer.WriteStartElement("Mine");
 					writer.WriteAttributeString("active", isMine);
 					writer.WriteEndElement();
@@ -116,7 +116,7 @@ namespace MineSweeper.Models
 								{
 									X = column,
 									Y = row,
-									Status = active.ToLower() == "yes" ? 9 : 0
+									Value = active.ToLower() == "yes" ? 9 : 0
 								});
 							}
 						}

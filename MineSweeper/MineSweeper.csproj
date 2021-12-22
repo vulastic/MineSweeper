@@ -34,7 +34,9 @@
     <None Remove="Assets\mine.ico" />
     <None Remove="Assets\mine.svg" />
     <None Remove="Assets\mine_red.svg" />
+    <None Remove="Assets\Numbers\d-.svg" />
     <None Remove="Assets\nums_background.svg" />
+    <None Remove="Assets\Tiles\flag_wrong.svg" />
     <None Remove="Assets\type0.svg" />
     <None Remove="Assets\type1.svg" />
     <None Remove="Assets\type2.svg" />
@@ -55,6 +57,7 @@
   <ItemGroup>
     <Resource Include="Assets\Borders\border_hor.png" />
     <Resource Include="Assets\Borders\border_vert.png" />
+    <Resource Include="Assets\Numbers\d-.svg" />
     <Resource Include="Assets\Tiles\closed.svg" />
     <Resource Include="Assets\Borders\border_bottom_left.png" />
     <Resource Include="Assets\Borders\border_bottom_right.png" />
@@ -76,6 +79,7 @@
     <Resource Include="Assets\Faces\face_win.svg" />
     <Resource Include="Assets\Tiles\flag.svg" />
     <Resource Include="Assets\mine.ico" />
+    <Resource Include="Assets\Tiles\flag_wrong.svg" />
     <Resource Include="Assets\Tiles\mine.svg" />
     <Resource Include="Assets\Tiles\mine_red.svg" />
     <Resource Include="Assets\Numbers\nums_background.svg" />
