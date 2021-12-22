@@ -24,12 +24,24 @@ namespace MineSweeper.Controls
 				switch(parameter)
 				{
 					case "Hundreds":
+						if (number.Length < 3)
+						{
+							return "0";
+						}
 						return number.Substring(number.Length - 3, 1);
 
 					case "Tens":
+						if (number.Length < 2)
+						{
+							return "0";
+						}
 						return number.Substring(number.Length - 2, 1);
 
 					case "Units":
+						if (number.Length < 1)
+						{
+							return "0";
+						}
 						return number.Substring(number.Length - 1, 1);
 				}
 			}

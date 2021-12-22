@@ -316,11 +316,21 @@ namespace MineSweeper.Models
 					return;
 				}
 
+				// Open tile
 				if (mines.Count == 0)
 				{
 					foreach (Tile tile in pressed)
 					{
 						tile.Display = tile.Value;
+					}
+				}
+
+				// Rollback tile
+				else
+				{
+					foreach (Tile tile in pressed)
+					{
+						tile.Display = (int)TileValue.Closed;
 					}
 				}
 			}
@@ -515,6 +525,7 @@ namespace MineSweeper.Models
 			{
 				mineCount = random.Next(0, (width * height));
 			}
+
 
 			// fill the random mine
 			while (mineCount > 0)

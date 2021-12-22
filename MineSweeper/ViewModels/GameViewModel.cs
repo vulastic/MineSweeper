@@ -208,7 +208,7 @@ namespace MineSweeper.ViewModels
 					// Save Play
 					// Save Play
 					string outpath = "game.xml";
-					bool isSuccess = XmlHelper.GetPlayFromXML(outpath, out gameLogs);
+					bool isSuccess = XmlHelper.SetPlayToXML(outpath, this.gameLogs);
 					if (isSuccess)
 					{
 						System.Windows.MessageBox.Show($"Success to create '{outpath}' file.", "Success!");
