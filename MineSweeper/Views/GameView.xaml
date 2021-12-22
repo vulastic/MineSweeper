@@ -17,12 +17,13 @@
 			<MenuItem Header="Play Game" Margin="5,0,0,0" Padding="3">
 				<MenuItem Header="Load Field" IsCheckable="True" IsChecked="{Binding IsLoadField}" Command="{Binding LoadField}"/>
 				<MenuItem Header="Load Game" IsCheckable="True" IsChecked="{Binding IsLoadGame}" Command="{Binding LoadGame}"/>
-				<MenuItem Header="Play" IsEnabled="{Binding IsGameEnabled}" Command="{Binding PlayGame}"/>
+				<MenuItem Header="Play" IsEnabled="{Binding IsReplayEnable}" Command="{Binding ReplayGame}"/>
 			</MenuItem>
 			<MenuItem Header="Set Fields" Margin="10,0,0,0" Padding="3">
 				<MenuItem Header="Auto-populate" IsCheckable="True" IsChecked="{Binding IsEditMode}" Command="{Binding AutoPopulate}"/>
 				<MenuItem Header="Save into XML" Command="{Binding SetFieldToXML}" IsEnabled="{Binding IsEditMode}"/>
 			</MenuItem>
+			<MenuItem Header="Replay Next" Margin="10,0,0,0" Padding="3" IsEnabled="{Binding IsReplayEnable}" Command="{Binding ReplayGame}"/>
 		</Menu>
 
 		<Grid Grid.Row="0" Background="{StaticResource PrimaryBackgroundColor}">

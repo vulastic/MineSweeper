@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -23,7 +24,7 @@ namespace MineSweeper.ViewModels
 			set
 			{
 				isLoadField = value;
-				this.OnPropertyChanged("IsGameEnabled");
+				this.OnPropertyChanged("IsReplayEnable");
 			}
 		}
 
@@ -34,15 +35,15 @@ namespace MineSweeper.ViewModels
 			set
 			{
 				isLoadGame = value;
-				OnPropertyChanged("IsGameEnabled");
+				OnPropertyChanged("IsReplayEnable");
 			}
 		}
 
-		public bool IsGameEnabled { get => isLoadField | isLoadGame; }
+		public bool IsReplayEnable { get => isLoadField & isLoadGame; }
 
 		public ICommand LoadField { get; }
 		public ICommand LoadGame { get; }
-		public ICommand PlayGame { get; }
+		public ICommand ReplayGame { get; }
 		#endregion
 
 		#region Set Fields
@@ -82,6 +83,9 @@ namespace MineSweeper.ViewModels
 			}
 		}
 
+		private int logIndex = 0;
+		private List<Log> gameLogs = new List<Log>();
+
 		public GameViewModel()
 		{
 			// Mouse Event
@@ -92,7 +96,7 @@ namespace MineSweeper.ViewModels
 			// Play Game
 			LoadField = new RelayCommand<object>(LoadFieldEvent);
 			LoadGame = new RelayCommand<object>(LoadGameEvent);
-			PlayGame = new RelayCommand<object>(PlayGameEvent);
+			ReplayGame = new RelayCommand<object>(ReplayGameEvent);
 
 			// Set Field
 			ResetGame = new RelayCommand<object>(ResetGameEvent);
@@ -122,6 +126,19 @@ namespace MineSweeper.ViewModels
 
 			// Game Mode
 			game.PressTile(tile.X, tile.Y);
+
+			// Play
+			if (game.State == 1)
+			{
+				gameLogs.Add(new Log()
+				{
+					X = tile.X,
+					Y = tile.Y,
+					Time = game.Time,
+					User = "user",
+					Sign = Log.PlaySign.Click
+				});
+			}
 		}
 
 		private void RightClickEvent(object sender)
@@ -139,11 +156,65 @@ namespace MineSweeper.ViewModels
 			}
 
 			game.SetFlag(tile.X, tile.Y);
+
+			// Play
+			if (game.State == 1)
+			{
+				gameLogs.Add(new Log()
+				{
+					X = tile.X,
+					Y = tile.Y,
+					Time = game.Time,
+					User = "user",
+					Sign = Log.PlaySign.SetFlag
+				});
+			}
+			else if (game.State > 1)
+			{
+				// save last action
+				gameLogs.Add(new Log()
+				{
+					X = tile.X,
+					Y = tile.Y,
+					Time = game.Time,
+					User = "user",
+					Sign = Log.PlaySign.SetFlag
+				});
+
+				MessageBoxResult result = System.Windows.MessageBox.Show("Do you want to save your play?", "Save your play", MessageBoxButton.YesNo);
+				if (result == MessageBoxResult.Yes)
+				{
+					// Save Play
+					string outpath = "game.xml";
+					bool isSuccess = XmlHelper.SetPlayToXML(outpath, this.gameLogs);
+					if (isSuccess)
+					{
+						System.Windows.MessageBox.Show($"Success to create '{outpath}' file.", "Success!");
+					}
+				}
+			}
 		}
 
 		private void MouseReleaseEvent(object sender)
 		{
 			game.ReleaseTile();
+
+			// end game
+			if (game.State > 1)
+			{
+				MessageBoxResult result = System.Windows.MessageBox.Show("Do you want to save your play?", "Save your play", MessageBoxButton.YesNo);
+				if (result == MessageBoxResult.Yes)
+				{
+					// Save Play
+					// Save Play
+					string outpath = "game.xml";
+					bool isSuccess = XmlHelper.GetPlayFromXML(outpath, out gameLogs);
+					if (isSuccess)
+					{
+						System.Windows.MessageBox.Show($"Success to create '{outpath}' file.", "Success!");
+					}
+				}
+			}
 		}
 
 		private void LoadFieldEvent(object sender)
@@ -152,12 +223,18 @@ namespace MineSweeper.ViewModels
 
 			List<Tile> tiles;
 			int width, height;
-			bool isSuccess = XmlHelper.GetFieldToXML(inputpath, out width, out height, out tiles);
+			bool isSuccess = XmlHelper.GetFieldFromXML(inputpath, out width, out height, out tiles);
+			if (isSuccess)
+			{
+				System.Windows.MessageBox.Show($"'{inputpath}' load successful.", "Success!");
+			}
 
 			game.Init(width, height, true, tiles);
 
 			GameTiles.Clear();
 			game.Map.ForEach(x => GameTiles.Add(x));
+
+			OnPropertyChanging("GameTiles");
 
 			// set play mode
 			this.IsEditMode = false;
@@ -165,12 +242,41 @@ namespace MineSweeper.ViewModels
 
 		private void LoadGameEvent(object sender)
 		{
+			logIndex = 0;
+			gameLogs.Clear();
 
+			string inputPath = "game.xml";
+			bool isSuccess = XmlHelper.GetPlayFromXML(inputPath, out this.gameLogs);
+			if (isSuccess)
+			{
+				System.Windows.MessageBox.Show($"'{inputPath}' load successful.", "Success!");
+			}
 		}
 
-		private void PlayGameEvent(object sender)
+		private void ReplayGameEvent(object sender)
 		{
+			if (gameLogs.Count > logIndex)
+			{
+				Log log = gameLogs[logIndex++];
 
+				if (log.Sign == Log.PlaySign.Click)
+				{
+					game.PressTile(log.X, log.Y);
+					game.ReleaseTile();
+
+				}
+				else if (log.Sign == Log.PlaySign.SetFlag)
+				{
+					game.SetFlag(log.X, log.Y);
+				}
+
+				if (game.State > 1)
+				{
+					System.Windows.MessageBox.Show($"'Replay Completed.", "Success!");
+					this.IsLoadField = false;
+					this.IsLoadGame = false;
+				}
+			}
 		}
 
 		private void ResetGameEvent(object sender)
@@ -180,6 +286,8 @@ namespace MineSweeper.ViewModels
 
 			game.Init();
 			game.AutoGenerate(40);
+
+			gameLogs.Clear();
 		}
 
 		private void AutoPopulateEvent(object sender)
