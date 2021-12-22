@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:MineSweeper.Controls"
              mc:Ignorable="d">
 	<UserControl.Resources>
@@ -53,6 +54,9 @@
 							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsCovered}" Value="True">
 								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileClosed}"/>
 							</DataTrigger>
+							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsPressed}" Value="True">
+								<Setter TargetName="Tile" Property="Source" Value="{StaticResource Tile0}"/>
+							</DataTrigger>
 							<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsFlag}" Value="True">
 								<Setter TargetName="Tile" Property="Source" Value="{StaticResource TileFlag}"/>
 							</DataTrigger>
@@ -77,5 +81,11 @@
 					  Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=MiddleClick}"
 					  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CommandParameter}"/>
 		</Button.InputBindings>
+		<i:Interaction.Triggers>
+			<i:EventTrigger EventName="MouseUp">
+				<i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=MouseRelease}"
+					  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=CommandParameter}"/>
+			</i:EventTrigger>
+		</i:Interaction.Triggers>
 	</Button>
 </UserControl>

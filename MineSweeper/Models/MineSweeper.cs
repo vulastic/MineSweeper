@@ -9,7 +9,7 @@ namespace MineSweeper.Models
 {
 	class MineSweeper : ObservableObject
 	{
-		private enum TileValue
+		public enum TileValue
 		{
 			Empty = 0,
 			One = 1,
@@ -63,6 +63,8 @@ namespace MineSweeper.Models
 		private Tile[,] map;
 		public List<Tile> Map => map.Cast<Tile>().ToList();
 
+		private Tile selectedTile;
+
 		public MineSweeper()
 		{
 			
@@ -70,7 +72,7 @@ namespace MineSweeper.Models
 
 		public void Init(int width, int height, bool IsCovered)
 		{
-			this.width = width;
+			this.Width = width;
 			this.height = height;
 
 			// create new map
@@ -90,9 +92,242 @@ namespace MineSweeper.Models
 					};
 				}
 			}
+			this.Mine = 0;
+			this.Time = 0;
+		}
 
-			this.mine = 0;
-			this.time = 0;
+		public void LeftClick(int x, int y)
+		{
+			if (x < 0 || y < 0 || x >= width || y >= height)
+			{
+				return;
+			}
+
+			selectedTile = map[x, y];
+			if (selectedTile.IsFlag == true)
+			{
+				// cannot click the flag
+				selectedTile = null;
+				return;
+			}
+
+			// Hit Number Tile
+			if (selectedTile.IsCovered == false && selectedTile.Status <= (int)TileValue.Eight)
+			{
+				// Searching eight direction. if there are not a mine, it will be opened.
+				SearchMineAround(x, y, true);
+			}
+
+			else if (selectedTile.IsCovered == true)
+			{
+				selectedTile.IsPressed = true;
+			}
+		}
+
+		public void RightClick(int x, int y )
+		{
+			if (x < 0 || y < 0 || x >= width || y >= height)
+			{
+				return;
+			}
+
+			selectedTile = map[x, y];
+			if (selectedTile.IsFlag)
+			{
+				selectedTile.IsFlag = false;
+			}
+			else if (selectedTile.IsCovered == true)
+			{
+				selectedTile.IsFlag = true;
+			}
+
+			selectedTile = null;
+		}
+
+		public void ReleasePressed()
+		{
+			if (selectedTile == null)
+			{
+				return;
+			}
+
+			// Hit the mine
+			if (selectedTile.Status == (int)TileValue.Mine)
+			{
+				selectedTile.IsCovered = false;
+				selectedTile.Status = (int)TileValue.MineHit;
+				OpenAllMine();
+				return;
+			}
+
+			// Empty tile
+			if (selectedTile.Status == (int)TileValue.Empty)
+			{
+				selectedTile.IsCovered = false;
+				OpenEmptyTile(selectedTile.X, selectedTile.Y);
+				return;
+			}
+
+			// Number Tile
+			if (selectedTile.Status <= (int)TileValue.Eight)
+			{
+				// Searching eight direction. if there are not a mine, it will be opened.
+				int count = SearchMineAround(selectedTile.X, selectedTile.Y, false);
+				if (count == 0)
+				{
+					OpenAround(selectedTile.X, selectedTile.Y);
+				}
+			}
+
+			selectedTile.IsPressed = false;
+			selectedTile.IsCovered = false;
+		}
+
+		private void OpenAllMine()
+		{
+			for (int y = 0; y < height; ++y)
+			{
+				for (int x = 0; x < width; ++x)
+				{
+					Tile tile = map[x, y];
+					if (tile.Status == (int)TileValue.Mine)
+					{
+						map[x, y].IsCovered = false;
+					}
+				}
+			}
+		}
+
+		private void OpenEmptyTile(int x, int y)
+		{
+			if (x < 0 || width <= x || y < 0 || height <= y)
+			{
+				// out of range
+				return;
+			}
+
+			if (map[x, y].Status == (int)TileValue.Empty)
+			{
+				for (int j = y - 1; j < y + 2; ++j)
+				{
+					for (int i = x - 1; i < x + 2; ++i)
+					{
+						if (i < 0 || j < 0 || i >= width || j >= height)
+						{
+							continue;
+						}
+
+						if (i == x && j == y)
+						{
+							continue;
+						}
+
+						Tile tile = map[i, j];
+						if (tile.IsFlag == true || tile.IsCovered == false)
+						{
+							continue;
+						}
+
+						if (tile.Status == (int)TileValue.Mine || tile.Status == (int)TileValue.MineHit)
+						{
+							continue;
+						}
+
+						tile.IsCovered = false;
+						OpenEmptyTile(i, j);
+					}	
+				}
+			}
+		}
+
+		private int SearchMineAround(int x, int y, bool isPressed = false)
+		{
+			int mineCount = 0;
+			for (int j = y - 1; j < y + 2; ++j)
+			{
+				for (int i = x - 1; i < x + 2; ++i)
+				{
+					if (i < 0 || j < 0 || i >= width || j >= height)
+					{
+						continue;
+					}
+
+					if (i == x && j == y)
+					{
+						continue;
+					}
+
+					Tile tile = map[i, j];
+					if (tile.IsFlag == true || tile.IsCovered == false)
+					{
+						continue;
+					}
+
+					if (tile.IsCovered == true)
+					{
+						tile.IsPressed = isPressed;
+					}
+					
+					if (tile.Status == (int)TileValue.Mine)
+					{
+						++mineCount;
+					}
+				}
+			}
+			return mineCount;
+		}
+
+		private void OpenAround(int x, int y)
+		{
+			for (int j = y - 1; j < y + 2; ++j)
+			{
+				for (int i = x - 1; i < x + 2; ++i)
+				{
+					if (i < 0 || j < 0 || i >= width || j >= height)
+					{
+						continue;
+					}
+
+					if (i == x && j == y)
+					{
+						continue;
+					}
+
+					Tile tile = map[i, j];
+					if (tile.IsFlag == true || tile.IsCovered == false)
+					{
+						continue;
+					}
+
+					tile.IsCovered = false;
+				}
+			}
+		}
+
+		public void SetField(int width, int height, bool IsCovered, List<Tile> tiles)
+		{
+			this.Mine = 0;
+			this.Time = 0;
+
+			map = new Tile[width, height];
+
+			foreach (Tile tile in tiles)
+			{
+				tile.IsCovered = IsCovered;
+				map[tile.X, tile.Y] = tile;
+				if (tile.Status == (int)TileValue.Mine)
+				{
+					++this.Mine;
+				}
+			}
+
+			for (int y = 0; y < height; ++y)
+			{
+				for (int x = 0; x < width; ++x)
+				{
+					CalculateField(x, y);
+				}
+			}
 		}
 
 		public void AutoGenerate(int mineCount = -1)
@@ -116,7 +351,7 @@ namespace MineSweeper.Models
 					map[x, y].Status = (int)TileValue.Mine;
 
 					--mineCount;
-					++this.mine;
+					++this.Mine;
 				}
 			}
 
@@ -159,6 +394,60 @@ namespace MineSweeper.Models
 						}
 					}
 				}
+			}
+		}
+
+		private void ReCalculateField(int x, int y)
+		{
+			if (x < 0 || width <= x || y < 0 || height <= y)
+			{
+				// out of range
+				return;
+			}
+
+			int mineCount = 0;
+			for (int j = y - 1; j < y + 2; ++j)
+			{
+				for (int i = x - 1; i < x + 2; ++i)
+				{
+					if (i < 0 || j < 0 || i >= width || j >= height)
+					{
+						continue;
+					}
+
+					if (i == x && j == y)
+					{
+						continue;
+					}
+
+					if (map[i, j].Status != (int)TileValue.Mine)
+					{
+						map[i, j].Status -= 1;
+					}
+					else
+					{
+						++mineCount;
+					}
+				}
+			}
+			map[x, y].Status = mineCount;
+		}
+
+		public void SetMine(int x, int y)
+		{
+			if (map[x, y].Status == (int)TileValue.Mine)
+			{
+				map[x, y].Status = (int)TileValue.Empty;
+
+				ReCalculateField(x, y);
+				--this.Mine;
+			}
+			else if (map[x, y].Status != (int)TileValue.Mine)
+			{
+				map[x, y].Status = (int)TileValue.Mine;
+
+				CalculateField(x, y);
+				++this.Mine;
 			}
 		}
 	}

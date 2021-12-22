@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MineSweeper.Models
-{
+{	
 	class Tile : ObservableObject
 	{
 		public int X { get; set; }
@@ -42,6 +42,17 @@ namespace MineSweeper.Models
 			{
 				isFlag = value;
 				OnPropertyChanged("IsFlag");
+			}
+		}
+
+		private bool isPressed = false;
+		public bool IsPressed
+		{
+			get => isPressed;
+			set
+			{
+				isPressed = value;
+				OnPropertyChanged("IsPressed");
 			}
 		}
 	}

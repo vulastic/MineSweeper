@@ -40,10 +40,9 @@ namespace MineSweeper.ViewModels
 
 		public bool IsGameEnabled { get => isLoadField | isLoadGame; }
 
-		public ICommand PlayGame { get; } = new RelayCommand(() =>
-		{
-			Console.WriteLine("aa");
-		});
+		public ICommand LoadField { get; }
+		public ICommand LoadGame { get; }
+		public ICommand PlayGame { get; }
 		#endregion
 
 		#region Set Fields
@@ -56,11 +55,9 @@ namespace MineSweeper.ViewModels
 
 		public int Width => Game.Width * 24;
 
-		public ICommand LeftClickCommand { get; }
-		public ICommand RightClickCommand { get; }
-		public ICommand MiddleClickCommand { get; }
-
-		
+		public ICommand LeftClick { get; }
+		public ICommand RightClick { get; }
+		public ICommand MouseRelease { get; }
 
 		private ObservableCollection<Tile> gameTiles = new();
 		public ObservableCollection<Tile> GameTiles
@@ -73,11 +70,27 @@ namespace MineSweeper.ViewModels
 			}
 		}
 
+		private bool isEditMode = false;
+		public bool IsEditMode 
+		{ 
+			get => isEditMode;
+			set
+			{
+				isEditMode = value;
+				OnPropertyChanged("IsEditMode");
+			}
+		}
+
 		public GameViewModel()
 		{
-			LeftClickCommand = new RelayCommand<object>(LeftClickEvent);
-			RightClickCommand = new RelayCommand<object>(RightClickEvent);
-			MiddleClickCommand = new RelayCommand<object>(MiddleClickEvent);
+			LeftClick = new RelayCommand<object>(LeftClickEvent);
+			RightClick = new RelayCommand<object>(RightClickEvent);
+			MouseRelease = new RelayCommand<object>(MouseReleaseEvent);
+
+			// Play Game
+			LoadField = new RelayCommand<object>(LoadFieldEvent);
+			LoadGame = new RelayCommand<object>(LoadGameEvent);
+			PlayGame = new RelayCommand<object>(PlayGameEvent);
 
 			// Set Field
 			AutoPopulate = new RelayCommand<object>(AutoPopulateEvent);
@@ -91,17 +104,70 @@ namespace MineSweeper.ViewModels
 
 		private void LeftClickEvent(object sender)
 		{
-			
+			Tile tile = sender as Tile;
+			if (tile == null)
+			{
+				return;
+			}
+
+			// Edit Mode
+			if (IsEditMode)
+			{
+				game.SetMine(tile.X, tile.Y);
+				return;
+			}
+
+			// Game Mode
+			game.LeftClick(tile.X, tile.Y);
 		}
 
 		private void RightClickEvent(object sender)
 		{
-			
+			Tile tile = sender as Tile;
+			if (tile == null)
+			{
+				return;
+			}
+
+			if (IsEditMode)
+			{
+				game.SetMine(tile.X, tile.Y);
+				return;
+			}
+
+			game.RightClick(tile.X, tile.Y);
 		}
 
-		private void MiddleClickEvent(object sender)
+		private void MouseReleaseEvent(object sender)
 		{
-			
+			game.ReleasePressed();
+		}
+
+		private void LoadFieldEvent(object sender)
+		{
+			string inputpath = "minefield.xml";
+
+			List<Tile> tiles;
+			int width, height;
+			bool isSuccess = XmlHelper.GetFieldToXML(inputpath, out width, out height, out tiles);
+
+			game.SetField(width, height, true, tiles);
+
+			GameTiles.Clear();
+			game.Map.ForEach(x => GameTiles.Add(x));
+
+			// set play mode
+			this.IsEditMode = false;
+		}
+
+		private void LoadGameEvent(object sender)
+		{
+
+		}
+
+		private void PlayGameEvent(object sender)
+		{
+
 		}
 
 		private void AutoPopulateEvent(object sender)
@@ -111,11 +177,31 @@ namespace MineSweeper.ViewModels
 
 			GameTiles.Clear();
 			game.Map.ForEach(x => GameTiles.Add(x));
+
+			// set edit mode
+			this.IsEditMode = true;
 		}
 
 		private void SetFieldToXMLEvent(object sender)
 		{
+			if (!IsEditMode)
+			{
+				System.Windows.MessageBox.Show($"You should go into set field mode.", "Ooops!");
+				return;
+			}
 
+			string outpath = "minefield.xml";
+
+			bool isSuccess = XmlHelper.SetFieldToXML(outpath, game.Width, game.Height, game.Map);
+
+			if (isSuccess)
+			{
+				System.Windows.MessageBox.Show($"Success to create '{outpath}' file.", "Success!");
+			}
+			else
+			{
+				System.Windows.MessageBox.Show($"Cannot create '{outpath}' file.", "Ooops!");
+			}
 		}
 	}
 }

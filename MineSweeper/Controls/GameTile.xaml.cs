@@ -68,9 +68,21 @@ namespace MineSweeper.Controls
 			}
 		}
 
+		public static readonly DependencyProperty PressedProperty =
+			DependencyProperty.Register("IsPressed", typeof(bool), typeof(GameTile), new PropertyMetadata(false));
+
+		public bool IsPressed
+		{
+			get => (bool)GetValue(PressedProperty);
+			set
+			{
+				SetValue(PressedProperty, value);
+			}
+		}
+
 		public static readonly DependencyProperty LeftClickProperty =
 			DependencyProperty.Register("LeftClick", typeof(ICommand), typeof(GameTile), new UIPropertyMetadata(null));
-
+		
 		public ICommand LeftClick
 		{
 			get => (ICommand)GetValue(LeftClickProperty);
@@ -104,6 +116,19 @@ namespace MineSweeper.Controls
 			}
 		}
 
+		public static readonly DependencyProperty MouseReleaseProperty =
+			DependencyProperty.Register("MouseRelease", typeof(ICommand), typeof(GameTile), 
+				new FrameworkPropertyMetadata(null, new PropertyChangedCallback((obj, e) => OnMouseCommandChanged(obj, (ICommand)e.NewValue, true))));
+
+		public ICommand MouseRelease
+		{
+			get => (ICommand)GetValue(MouseReleaseProperty);
+			set
+			{
+				SetValue(MouseReleaseProperty, value);
+			}
+		}
+
 		public static readonly DependencyProperty CommandParameterProperty = 
 			DependencyProperty.Register("CommandParameter", typeof(object), typeof(GameTile), new UIPropertyMetadata(null));
 
@@ -119,6 +144,18 @@ namespace MineSweeper.Controls
 		public GameTile()
 		{
 			InitializeComponent();
+		}
+
+		private static void OnMouseCommandChanged(DependencyObject d, ICommand command, bool isMouseUp)
+		{
+			if (command == null) return;
+
+			var element = (FrameworkElement)d;
+
+			if (isMouseUp)
+				element.PreviewMouseUp += (obj, e) => command.Execute(null);
+			else
+				element.PreviewMouseDown += (obj, e) => command.Execute(null);
 		}
 	}
 }
