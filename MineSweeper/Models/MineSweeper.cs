@@ -466,6 +466,7 @@ namespace MineSweeper.Models
 
 			map = new Tile[width, height];
 
+			// fill mine
 			foreach (Tile tile in tiles)
 			{
 				map[tile.X, tile.Y] = tile;
@@ -475,6 +476,25 @@ namespace MineSweeper.Models
 				}
 			}
 
+			// fill others
+			for (int y = 0; y < height; ++y)
+			{
+				for (int x = 0; x < width; ++x)
+				{
+					if (map[x, y] == null)
+					{
+						map[x, y] = new Tile()
+						{
+							X = x,
+							Y = y,
+							Value = (int)TileValue.Empty,
+							Display = IsCovered ? (int)TileValue.Closed : (int)TileValue.Empty
+						};
+					}
+				}
+			}
+
+			// calculating
 			for (int y = 0; y < height; ++y)
 			{
 				for (int x = 0; x < width; ++x)
@@ -483,6 +503,7 @@ namespace MineSweeper.Models
 				}
 			}
 
+			// update display value
 			for (int y = 0; y < height; ++y)
 			{
 				for (int x = 0; x < width; ++x)

@@ -206,7 +206,6 @@ namespace MineSweeper.ViewModels
 				if (result == MessageBoxResult.Yes)
 				{
 					// Save Play
-					// Save Play
 					string outpath = "game.xml";
 					bool isSuccess = XmlHelper.SetPlayToXML(outpath, this.gameLogs);
 					if (isSuccess)
@@ -224,20 +223,27 @@ namespace MineSweeper.ViewModels
 			List<Tile> tiles;
 			int width, height;
 			bool isSuccess = XmlHelper.GetFieldFromXML(inputpath, out width, out height, out tiles);
-			if (isSuccess)
+			if (isSuccess && 0 < tiles.Count)
 			{
 				System.Windows.MessageBox.Show($"'{inputpath}' load successful.", "Success!");
 			}
+			else
+			{
+				System.Windows.MessageBox.Show($"'Fail to load {inputpath}' file.", "Fail!");
+			}
 
-			game.Init(width, height, true, tiles);
+			if (0 < tiles.Count)
+			{
+				game.Init(width, height, true, tiles);
 
-			GameTiles.Clear();
-			game.Map.ForEach(x => GameTiles.Add(x));
+				GameTiles.Clear();
+				game.Map.ForEach(x => GameTiles.Add(x));
 
-			OnPropertyChanging("GameTiles");
+				OnPropertyChanging("GameTiles");
 
-			// set play mode
-			this.IsEditMode = false;
+				// set play mode
+				this.IsEditMode = false;
+			}
 		}
 
 		private void LoadGameEvent(object sender)
@@ -250,6 +256,10 @@ namespace MineSweeper.ViewModels
 			if (isSuccess)
 			{
 				System.Windows.MessageBox.Show($"'{inputPath}' load successful.", "Success!");
+			}
+			else
+			{
+				System.Windows.MessageBox.Show($"'Fail to load {inputPath}' file.", "Fail!");
 			}
 		}
 

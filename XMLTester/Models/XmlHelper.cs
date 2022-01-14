@@ -79,13 +79,13 @@ namespace MineSweeper.Models
 						{
 							if (!GetAttribute<int>(reader, "width", out width))
 							{
-								Debug.WriteLine($"Invalid 'width' attribute.");
+								Console.WriteLine($"Invalid 'width' attribute.");
 								return false;
 							}
 
 							if (!GetAttribute<int>(reader, "height", out height))
 							{
-								Debug.WriteLine($"Invalid 'Height' attribute.");
+								Console.WriteLine($"Invalid 'Height' attribute.");
 								return false;
 							}
 						}
@@ -95,14 +95,14 @@ namespace MineSweeper.Models
 							int row = 0;
 							if (!GetAttribute<int>(reader, "row", out row))
 							{
-								Debug.WriteLine($"Invalid 'row' attribute.");
+								Console.WriteLine($"Invalid 'row' attribute.");
 								return false;
 							}
 
 							int column = 0;
 							if (!GetAttribute<int>(reader, "column", out column))
 							{
-								Debug.WriteLine($"Invalid 'column' attribute.");
+								Console.WriteLine($"Invalid 'column' attribute.");
 								return false;
 							}
 
@@ -111,7 +111,7 @@ namespace MineSweeper.Models
 								string active = "";
 								if (!GetAttribute<string>(reader, "active", out active))
 								{
-									Debug.WriteLine($"Invalid 'active' attribute.");
+									Console.WriteLine($"Invalid 'active' attribute.");
 									return false;
 								}
 
@@ -127,7 +127,7 @@ namespace MineSweeper.Models
 				}
 				if (tiles.Count == 0)
 				{
-					Debug.WriteLine($"Tile data is empty.");
+					Console.WriteLine($"Tile data is empty.");
 					return false;
 				}
 
@@ -135,7 +135,7 @@ namespace MineSweeper.Models
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"Error: {ex.Message}");
+				Console.WriteLine($"Error: {ex.Message}");
 			}
 			return false;
 		}
@@ -210,7 +210,7 @@ namespace MineSweeper.Models
 							string type = string.Empty, sign = string.Empty, position = string.Empty;
 							if (!GetAttribute<long>(reader, "time", out time))
 							{
-								Debug.WriteLine($"Invalid 'time' attribute.");
+								Console.WriteLine($"Invalid 'time' attribute.");
 								return false;
 							}
 
@@ -218,7 +218,7 @@ namespace MineSweeper.Models
 							{
 								if (!GetAttribute<string>(reader, "type", out type))
 								{
-									Debug.WriteLine($"Invalid 'type' attribute.");
+									Console.WriteLine($"Invalid 'type' attribute.");
 									return false;
 								}
 							}
@@ -227,7 +227,7 @@ namespace MineSweeper.Models
 							{
 								if (!GetAttribute<string>(reader, "sign", out sign))
 								{
-									Debug.WriteLine($"Invalid 'sign' attribute.");
+									Console.WriteLine($"Invalid 'sign' attribute.");
 									return false;
 								}
 
@@ -253,14 +253,14 @@ namespace MineSweeper.Models
 				}
 				if (logs.Count == 0)
 				{
-					Debug.WriteLine($"Log data is empty.");
+					Console.WriteLine($"Log data is empty.");
 					return false;
 				}
 				return true;
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine($"Error: {ex.Message}");
+				Console.WriteLine($"Error: {ex.Message}");
 			}
 			return false;
 		}
